@@ -4,10 +4,6 @@ public:
     void generateUniquePermutations(int idx, vector<int> nums, vector<vector<int>>& result){
 	    if (idx == nums.size()) {	
             result.push_back(nums);
-            for(auto a: nums){
-                cout << a << " ";
-            }
-            cout << endl;
             return;
         }	
         for (int i = idx; i < nums.size(); i++) {	

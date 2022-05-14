@@ -11,56 +11,64 @@ public:
     }
 };
 
-class Trie{
+
+
+
+
+
+class Solution {
 private:
-    TrieNode *root;
+    TrieNode* root;
     
 public:
-    Trie(){
-        root = new TrieNode();
-    }
     
-    bool insert(string& word){
+    void insert(string& word){
         int len = word.size();
         TrieNode* curr = root;
-        bool output = true;
+        
         for(int i=0; i<len ; i++){
             int id = word[i]-'a';
             if(curr->next[id] == NULL){
-                if(i!=len-1) output = false;
                 curr->next[id] = new TrieNode();
- 
             }
+            
             curr = curr->next[id];
-            if(i != len-1 && curr->endMark == false) output = false;
         }
         curr->endMark = true;
-        return output;
     }
     
-};
-
-class Solution {
-public:
+    bool search(string& word){
+        int len = word.size();
+        TrieNode* curr = root;
+        
+        for(int i=0; i<len ; i++){
+            int id = word[i]-'a';
+            if(curr->next[id] == NULL){
+                return false;
+            }
+            curr = curr->next[id];
+            if(curr->endMark == false) return false;
+        }
+        return curr->endMark;
+    }
+    
     
     string longestWord(vector<string>& words) {
-        
-        sort(words.begin(),words.end(),[](string &s1,string &s2){
-            return s1.length()<s2.length();
-        });
-        
-        string longestWord = "";
-        int n = words.size();
-        Trie* node = new Trie();
+        root = new TrieNode();
+
         for(auto word : words){
-            if(node->insert(word)){
-                if(longestWord.size() < word.size()) longestWord = word;
-                else if(longestWord.size() == word.size() && word<longestWord) {
+            insert(word);
+        }
+        string longestWord = "";
+        for(auto word : words){
+            if(search(word)){
+                if(word.size()>longestWord.size()){
+                    longestWord = word;
+                } else if(word.size() == longestWord.size() && word<longestWord){
                     longestWord = word;
                 }
             }
         }
-        
         return longestWord;
     }
 };

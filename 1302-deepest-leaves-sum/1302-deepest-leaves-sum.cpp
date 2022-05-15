@@ -11,43 +11,31 @@
  */
 class Solution {
 public:
-    
-    int maxDepth(TreeNode* node){
-        
-        if(node == NULL) return 0;
-        
-        int leftDepth = maxDepth(node->left);
-        int rightDepth = maxDepth(node->right);
-        
-        return 1+max(leftDepth, rightDepth);
-        
-    }
-    
-    void calculateSum(TreeNode* node , int& sum, int depth, int maxDepth){
-        
-        if(depth == maxDepth){
-            sum += node->val;
-            return;
-        }
-        
-        if(node->right != NULL){
-            calculateSum(node->right, sum, depth+1, maxDepth);
-        }
-        
-        if(node->left != NULL){
-            calculateSum(node->left, sum, depth+1, maxDepth);
-        }
-        return;
-    }
-    
     int deepestLeavesSum(TreeNode* root) {
+        if(root == NULL) return 0;
         
-        
-        int maxD = maxDepth(root);
-        
+        queue<TreeNode*>Q;
+        Q.push(root);
         int sum = 0;
-        calculateSum(root, sum, 1, maxD);
-        
+        while(!Q.empty()){
+            int size = Q.size();
+            sum = 0;
+            while(size--){
+                TreeNode* node = Q.front();
+                Q.pop();
+                
+                sum += node->val;
+                
+                if(node->left != NULL){
+                    Q.push(node->left);
+                }
+                
+                if(node->right != NULL){
+                    Q.push(node->right);
+                }
+                
+            }
+        }
         return sum;
     }
 };

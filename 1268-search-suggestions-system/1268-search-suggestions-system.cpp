@@ -43,12 +43,12 @@ private:
             curr = curr->next[id];
         }
         
-        preorderTraversalTrie(curr, prefix, result);
+        dfsTraversal(curr, prefix, result);
         
         return result;
     }
     
-    void preorderTraversalTrie(TrieNode* node, string& prefix, vector<string>& result){
+    void dfsTraversal(TrieNode* node, string& prefix, vector<string>& result){
         if(result.size() == 3){
             return;
         }
@@ -61,7 +61,7 @@ private:
         for(int id = 0; id<26; id++){
             if(node->next[id]){
                 prefix += (char)(id+'a');
-                preorderTraversalTrie(node->next[id], prefix, result);
+                dfsTraversal(node->next[id], prefix, result);
                 prefix.pop_back();
             }
         }
@@ -72,9 +72,9 @@ private:
 public:
     
     // Time Complexity : 
-    // O(n*m) for generateTrie, where n is number of products, m is length of product. 
-    // O(p) for getWordsStartingWith , where p is length of prefix string.
-    // O(h) for preorderTraversalTrie, where h is depth of trie, which is nothing but maximum height of trie.
+    // O(n*m) for generateTrie(), where n is number of products, m is length of product. 
+    // O(p) for getWordsStartingWith() , where p is length of prefix string.
+    // O(h) for dfsTraversal(), where h is depth of trie, which is nothing but maximum height of trie.
     
     // Space Complexity : O(26*26*26..... so on), ~ O(26n) ~ O(n), where n is maximum length of products string.
     // because every TrieNode has atmost 26 child and every child has atmost 26 child.

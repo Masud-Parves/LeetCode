@@ -23,29 +23,26 @@ public:
     
     int longestCommonSubsequence(string text1, string text2) {
         int n = text1.size(), m = text2.size();
-        
-        vector<vector<int>>DP(n+1, vector<int>(m+1, -1));
-        
-        
+        vector<int>previousRow(m+1, 0), currentRow(m+1, 0); 
+
+        // Time : O(n*m)        
+        // Space Optimization, O(n+m)
+
         for(int idx2 = 0; idx2<=m; idx2++){
-            DP[0][idx2] = 0;
+            previousRow[idx2] = 0;
         }
-        
-        for(int idx1 = 0; idx1<=n; idx1++){
-            DP[idx1][0] = 0;
-        }
-        
         
         for(int idx1 = 1; idx1<=n ; idx1++){
             for(int idx2 = 1; idx2<=m ; idx2++){
-                if(text1[idx1-1] == text2[idx2-1]){
-                    DP[idx1][idx2] = 1 + DP[idx1-1][idx2-1];
+                if(text1[idx1-1] == text2[idx2-1]){ // shifing index for base case;
+                    currentRow[idx2] = 1 + previousRow[idx2-1];
                 } else {
-                    DP[idx1][idx2] = max(DP[idx1-1][idx2], DP[idx1][idx2-1]);
+                    currentRow[idx2] = max(previousRow[idx2], currentRow[idx2-1]);
                 }
             }
+            previousRow = currentRow;
         }
         
-        return DP[n][m];
+        return previousRow[m];
     }
 };

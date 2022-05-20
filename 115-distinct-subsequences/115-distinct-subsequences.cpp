@@ -23,7 +23,7 @@ public:
         int n = s.size();
         int m = t.size();
         
-        vector<vector<int>> DP(n, vector<int>(m, -1));
+        vector<vector<int>> DP(n, vector<int>(m, -1));        
         int result = calculateDistinct(n-1, m-1, s, t, DP);
         return result;
     }

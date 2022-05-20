@@ -23,8 +23,22 @@ public:
         int n = s.size();
         int m = t.size();
         
-        vector<vector<int>> DP(n, vector<int>(m, -1));        
-        int result = calculateDistinct(n-1, m-1, s, t, DP);
-        return result;
+        vector<vector<double>> DP(n+1, vector<double>(m+1, 0));
+        
+        for(int idx1 = 0; idx1<=n; idx1++){
+            DP[idx1][0] = 1;
+        }
+
+        for(int i=1; i<=n ; i++){
+            for(int j=1; j<=m; j++){
+                DP[i][j] = DP[i-1][j];
+                if(s[i-1] == t[j-1]){
+                    DP[i][j] += DP[i-1][j-1];
+                }
+            }
+        }
+
+        //int result = calculateDistinct(n-1, m-1, s, t, DP);
+        return (int)DP[n][m];
     }
 };

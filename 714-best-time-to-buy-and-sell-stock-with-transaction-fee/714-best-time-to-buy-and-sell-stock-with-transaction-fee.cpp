@@ -11,14 +11,13 @@ public:
         int &cache = DP[idx][buy];
         if(cache != -1) return cache;
         
-        if(buy == 0){
-            int way1 = calculateMaxProfit(idx+1, buy, prices, fee, DP); // sell
-            int way2 = prices[idx] -fee + calculateMaxProfit(idx+1, 1-buy, prices, fee, DP); //sell
-            cache = max(way1, way2);
+        if(buy == 1){
+            cache = max(-prices[idx] + calculateMaxProfit(idx+1, 1-buy, prices,fee, DP), 
+                        calculateMaxProfit(idx+1, buy, prices, fee, DP));
         } else {
-            int way1 = calculateMaxProfit(idx+1, buy, prices, fee, DP); // buy
-            int way2 = -prices[idx] + calculateMaxProfit(idx+1, 1-buy, prices,fee, DP); // not buy
-            cache = max(way1, way2);
+
+            cache = max(prices[idx] - fee + calculateMaxProfit(idx+1, 1-buy, prices, fee, DP),
+                        calculateMaxProfit(idx+1, buy, prices, fee, DP));
         }
         return cache;
     }

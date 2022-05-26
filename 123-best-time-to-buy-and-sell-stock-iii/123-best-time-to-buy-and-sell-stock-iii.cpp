@@ -32,11 +32,7 @@ public:
                 DP[n][buy][trans] = 0;
             }
         }
-        for(int i=0; i<=n; i++){
-            DP[i][0][0] = DP[i][1][0] = 0;
-        }
-        
-        
+
         for(int idx = n-1; idx>=0 ; idx--){
             for(int buy = 0; buy<=1; buy++){
                 for(int trans=1; trans<=2; trans++){

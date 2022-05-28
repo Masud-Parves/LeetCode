@@ -19,8 +19,24 @@ public:
     
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<int>> DP(n+1, vector<int>(n+1, -1));
-        int result = calculateLIS(0, -1, nums, DP);
-        return result;
+        // recursion code 
+        //vector<vector<int>> DP(n+1, vector<int>(n+1, -1));
+        //int result = calculateLIS(0, -1, nums, DP);
+        
+        
+        // Binary Search for Efficient LIS
+        vector<int>result;
+        
+        for(int i=0; i<n; i++){
+            int low_idx = lower_bound(result.begin(), result.end(), nums[i]) - result.begin();
+            
+            if(low_idx == result.size()){
+                result.push_back(nums[i]);
+            } else {
+                result[low_idx] = nums[i];
+            }
+        }
+        
+        return result.size();
     }
 };

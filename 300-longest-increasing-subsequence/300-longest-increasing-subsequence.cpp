@@ -26,13 +26,12 @@ public:
         
         // Binary Search for Efficient LIS
         vector<int>result;
-        
-        for(int i=0; i<n; i++){
-            int low_idx = lower_bound(result.begin(), result.end(), nums[i]) - result.begin();
-            
-            if(low_idx == result.size()){
+        result.push_back(nums[0]);
+        for(int i=1; i<n; i++){
+            if(nums[i] > result.back()){
                 result.push_back(nums[i]);
             } else {
+                int low_idx = lower_bound(result.begin(), result.end(), nums[i]) - result.begin();
                 result[low_idx] = nums[i];
             }
         }

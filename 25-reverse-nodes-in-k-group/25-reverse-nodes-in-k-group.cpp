@@ -30,16 +30,30 @@ public:
             return head;
         }
         
-        ListNode *start = head, *end = head;
-        int inc = k-1;
+        ListNode *dummy = new ListNode(-1);
+        dummy->next = head;
+        ListNode *beforeStart = dummy, *end = head;
         
-        while(inc--){
-            end = end->next;
-            if(end == NULL) return head;
+        int idx = 0;
+        
+        while(end != NULL){
+            
+            idx++;
+            if(idx%k == 0){
+                ListNode *start = beforeStart->next, *afterEnd = end->next;
+                
+                reverseList(start, end);
+                beforeStart->next = end;
+                start->next = afterEnd;
+                beforeStart = start;
+                end = start->next;
+                
+            } else {
+                end = end->next;
+            }
         }
-        ListNode *newHead = reverseKGroup(end->next, k);
-        reverseList(start, end);
-        start->next = newHead;
-        return end;
+        
+        
+        return dummy->next;
     }
 };

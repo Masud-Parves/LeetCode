@@ -29,7 +29,7 @@ public:
         }
         
         if(list1) currNode->next = list1;
-        if(list2) currNode->next = list2;
+        else if(list2) currNode->next = list2;
         
         return dummy->next;
     }

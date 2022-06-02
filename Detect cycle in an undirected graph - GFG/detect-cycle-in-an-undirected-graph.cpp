@@ -5,17 +5,28 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
   private:
-    bool dfs(int u,vector<int> adj[], vector<bool>& visited, int parent){
+    bool bfs(int src, vector<int> adj[], vector<bool>& visited, int n){
         
-        visited[u] = true;
+        vector<int>parent(n, -1);
+        queue<int>Q;
+        Q.push(src);
+        visited[src] = true;
         
-        for(auto v : adj[u]){
-            if(visited[v] == false){
-                bool ret = dfs(v, adj, visited, u);
-                if(ret == true) return true;
-            } else if(visited[v] == true && v!=parent){
-                return true;
-            } 
+        
+        
+        while(!Q.empty()){
+            int uNode = Q.front();
+            Q.pop();
+            
+            for(int vNode : adj[uNode]){
+                if(visited[vNode] == false){
+                    visited[vNode] = true;
+                    Q.push(vNode);
+                    parent[vNode] = uNode;
+                } else if(parent[uNode]!=vNode){
+                    return true;
+                }
+            }
         }
         
         return false;
@@ -29,7 +40,7 @@ class Solution {
         
         for(int i=0; i< V; i++){
             if(visited[i] == false){
-                bool ret = dfs(i, adj, visited, -1);
+                bool ret = bfs(i, adj, visited, V);
                 if(ret == true) return true;
             }
         }

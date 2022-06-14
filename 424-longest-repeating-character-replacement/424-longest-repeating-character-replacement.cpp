@@ -1,13 +1,10 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int n = s.size();
-        
+        int n = s.size();    
         vector<int>cnt(26, 0);
-        
-        int left = 0, right = 0, mostFreq = 0;
-        // 0, 1, 2, 3 , 4
-        int result = 0;
+    
+        int left = 0, right = 0, mostFreq = 0, result = 0;
         while(right<n){
             
             cnt[s[right]-'A']++;

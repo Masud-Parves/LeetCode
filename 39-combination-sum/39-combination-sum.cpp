@@ -21,7 +21,6 @@ private:
             comb.pop_back();
         }
         findCombination(idx+1, target, nums, result, comb);
-        
     }
 public:
     vector<vector<int>> combinationSum(vector<int>& nums, int target) {

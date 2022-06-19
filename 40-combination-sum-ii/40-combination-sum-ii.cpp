@@ -1,5 +1,9 @@
 class Solution {
 private:
+    // Topic : Backtracking
+    // TC : O(2^n), where n is number of candidates.
+    // SC : O(n) because we use currComb to keep track current combination and another O(n) for recursion stack memory.
+    
     void findCombinations(int pos, vector<int>& candidates, int target, vector<vector<int>>& result, vector<int>& currComb){
         if(target == 0) {
             result.push_back(currComb);

@@ -1,5 +1,9 @@
 class Solution {
 private:
+    // Topic: Backtracking
+    // TC : O(2^target*k), where k is avg length of each combination,
+    // SC : O(k, x) where k is avg length of each combination and x is number of combination we can get as result
+    
     void findCombination(int idx, int target, vector<int>& nums, vector<vector<int>>& result, vector<int>& comb){
         
         if(target == 0) {
@@ -10,7 +14,6 @@ private:
         if(idx == nums.size()){
             return;
         }
-        
         
         if(nums[idx]<=target) {
             comb.push_back(nums[idx]);

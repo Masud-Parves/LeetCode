@@ -1,35 +1,32 @@
 class Solution {
 private:
-    // Topic: Backtracking
-    // TC : O(2^target*k), where k is avg length of each combination,
-    // SC : O(k, x) where k is avg length of each combination and x is number of combination we can get as result
-    
-    void findCombination(int idx, int target, vector<int>& nums, vector<vector<int>>& result, vector<int>& comb){
-        
-        if(target == 0) {
+    void getAllCombination(int idx, vector<int>& candidates, int target, vector<vector<int>>& result,
+                          vector<int>& comb, int currSum){
+        int n = candidates.size();
+
+        if(currSum == target){
             result.push_back(comb);
             return;
         }
         
-        if(idx == nums.size()){
+        if(idx == n){
             return;
         }
         
-        if(nums[idx]<=target) {
-            comb.push_back(nums[idx]);
-            findCombination(idx, target-nums[idx], nums, result, comb);
+        
+        if(currSum + candidates[idx]<=target){
+            comb.push_back(candidates[idx]);
+            getAllCombination(idx, candidates, target, result, comb, currSum+candidates[idx]);
             comb.pop_back();
         }
-        findCombination(idx+1, target, nums, result, comb);
+
+        getAllCombination(idx+1, candidates, target, result, comb, currSum);
     }
 public:
-    vector<vector<int>> combinationSum(vector<int>& nums, int target) {
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
         vector<vector<int>> result;
-        if(nums.size() == 0) {
-            return result;
-        }
         vector<int>comb;
-        findCombination(0, target, nums, result, comb);
+        getAllCombination(0, candidates, target, result, comb, 0);
         return result;
     }
 };

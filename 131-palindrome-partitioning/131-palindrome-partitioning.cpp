@@ -1,5 +1,8 @@
 // Topic : Backtrack
-// TC : O(2^n), where n is length of string.
+// TC : O(n * 2^n), Hence, there could be 2^{N}2 
+/*N possible substrings in the worst case. For each substring, it takes \mathcal{O}(N)O(N) time to generate substring and determine if it a palindrome or not. This gives us time complexity as \mathcal{O}(N \cdot 2^{N})O(N⋅2 
+N)
+ */
 // SC : O(n) . where n is no of max partition. 
 
 class Solution {

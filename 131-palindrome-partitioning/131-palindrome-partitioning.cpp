@@ -6,28 +6,17 @@ N)
 // SC : O(n) . where n is no of max partition. 
 
 class Solution {
-    
-    bool isPali(string& s, int i, int j){
-        if(i==j) return true;
-        
-        while(i<=j){
-            if(s[i]!=s[j]) return false;
-            i++;
-            j--;
-        }
-        return true;
-    }
-    
-    void backtrack(int idx, string& s, vector<vector<string>>& result, vector<string>& part){
-        if(idx >= s.length()){
+    void backtrack(int start, string& s, vector<vector<string>>& result, vector<string>& part, vector<vector<bool>>& DP){
+        if(start >= s.length()){
            result.push_back(part);
            return;
         } 
         
-        for(int i=idx; i < s.length(); i++){
-            if(isPali(s, idx, i)){
-                part.push_back(s.substr(idx, i-idx+1));
-                backtrack(i+1, s, result, part);
+        for(int end=start; end < s.length(); end++){
+            if(s[start] == s[end] && (end-start<=2 || DP[start+1][end-1] == true)){
+                DP[start][end] = true;
+                part.push_back(s.substr(start, end-start+1));
+                backtrack(end+1, s, result, part, DP);
                 part.pop_back();
             }
         }
@@ -35,9 +24,12 @@ class Solution {
     }
 public:
     vector<vector<string>> partition(string s) {
+        
+        int len = s.length();
         vector<vector<string>> result;
         vector<string> part;
-        backtrack(0, s, result, part);
+        vector<vector<bool>> DP(len, vector<bool>(len, false));
+        backtrack(0, s, result, part, DP);
         return result;
     }
 };

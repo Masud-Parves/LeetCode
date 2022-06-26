@@ -16,9 +16,25 @@ public:
             return 0;
         }
         
-        int leftDepth = maxDepth(root->left);
-        int rightDepth = maxDepth(root->right);
+        int depth = 0;
+        queue<TreeNode*>Q;
+        Q.push(root);
         
-        return 1 + max(leftDepth, rightDepth);
+        while(!Q.empty()){
+            int size = Q.size();
+            depth++;
+            for(int i=0; i<size; i++){
+                TreeNode* node = Q.front();
+                Q.pop();
+                if(node->left != NULL) {
+                    Q.push(node->left);
+                }
+                if(node->right != NULL) {
+                    Q.push(node->right);
+                }
+            }
+        }
+        
+        return depth;
     }
 };

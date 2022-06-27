@@ -11,33 +11,26 @@
  */
 class Solution {
 private:
-    int depthOfBT(TreeNode* node){
+    int depthOfBT(TreeNode* node, int& result){
         if(node == NULL) {
             return 0;
         }
         
-        int leftHeight = depthOfBT(node->left);
-        int rightHeight = depthOfBT(node->right);
+        int leftHeight = depthOfBT(node->left, result);
+        int rightHeight = depthOfBT(node->right, result);
+        
+        result = max(result, leftHeight + rightHeight);
         
         return 1 + max(leftHeight, rightHeight);
     }
-    void helper(TreeNode* node, int& result){
-        if(node == NULL) return;
-        
-        int leftHeight = depthOfBT(node->left);
-        int rightHeight = depthOfBT(node->right);
-        
-        result = max(result, leftHeight + rightHeight);
-        helper(node->left, result);
-        helper(node->right, result);
-    }
+
 public:
     int diameterOfBinaryTree(TreeNode* root) {
         if(root == NULL) {
             return 0;
         }
         int result = 0;
-        helper(root, result);
+        depthOfBT(root, result);
         return result;
     }
 };

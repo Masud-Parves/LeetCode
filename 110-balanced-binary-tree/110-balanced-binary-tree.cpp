@@ -15,18 +15,10 @@ private:
         if(node == NULL) {
             return 0;
         }
-        
+
         int leftDepth = depthOfBT(node->left);
-        if(leftDepth == -1) {
-            return -1;
-        }
-        
         int rightDepth = depthOfBT(node->right);
-        if(rightDepth == -1) {
-            return -1;
-        }
-        
-        if(abs(leftDepth - rightDepth)>1) return -1;
+
         return 1 + max(leftDepth, rightDepth);
         
     }
@@ -35,6 +27,16 @@ public:
         if(root == NULL) {
             return true;
         }
-        return depthOfBT(root) == -1 ? false : true;
+        
+        int leftDepth = depthOfBT(root->left);
+        int rightDepth = depthOfBT(root->right);
+        
+        if(abs(leftDepth - rightDepth)>1) {
+            return false;
+        }
+        
+        bool isLeftBalanced = isBalanced(root->left);
+        bool isRightBalanced = isBalanced(root->right);
+        return isLeftBalanced && isRightBalanced;
     }
 };

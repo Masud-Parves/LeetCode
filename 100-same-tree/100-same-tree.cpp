@@ -23,16 +23,14 @@ public:
             Q.pop();
             if(!check(up, uq)) return false;
             if(up != NULL){
-
                 if(!check(up->left, uq->left)) return false;
-                //cout << up->left << " left " << uq->left << endl;
                 if(!check(up->right, uq->right)) return false;
-                //cout << up->right << " right " << uq->right << endl;
-                if(up->left && uq->left){
+                
+                if(up->left ){
                     P.push(up->left);
                     Q.push(uq->left);
                 }
-                if(up->right && uq->right){
+                if(up->right ){
                     P.push(up->right);
                     Q.push(uq->right);
                 }

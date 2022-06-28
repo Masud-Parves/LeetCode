@@ -1,43 +1,36 @@
 class Solution {
 public:
-    
-    bool check(TreeNode* p, TreeNode* q){
-        if(p==NULL && q==NULL) return true;
-        //cout << p->val << " " << q->val << endl;
-        if(p == NULL or q == NULL or p->val != q->val) return false;
-        return true;
-    }
     bool isSameTree(TreeNode* p, TreeNode* q) {
         if(p == NULL && q == NULL) return true;
         if(p == NULL || q == NULL or p->val != q->val) return false;
         
+        stack<pair<TreeNode*, TreeNode*>> stack;
         
-        queue < TreeNode* > P, Q;
-        P.push(p);
-        Q.push(q);
+        stack.push({p, q});
         
-        while(!P.empty() && !Q.empty()){
-            TreeNode* up = P.front();
-            P.pop();
-            TreeNode* uq = Q.front();
-            Q.pop();
-            if(!check(up, uq)) return false;
-            if(up != NULL){
-                if(!check(up->left, uq->left)) return false;
-                if(!check(up->right, uq->right)) return false;
-                
-                
-                    P.push(up->left);
-                    Q.push(uq->left);
-                
-                
-                    P.push(up->right);
-                    Q.push(uq->right);
-                
+        while(!stack.empty()){
+            TreeNode* pNode = stack.top().first;
+            TreeNode* qNode = stack.top().second;
+            
+            stack.pop();
+            
+            if(pNode->val != qNode->val) {
+                return false;
             }
             
+            if(pNode->left && qNode->left) {
+                stack.push({pNode->left, qNode->left});
+            } else if(pNode->left || qNode->left) {
+                return false;
+            }
+            
+            if(pNode->right && qNode->right) {
+                stack.push({pNode->right, qNode->right});
+            } else if(pNode->right || qNode->right) {
+                return false;
+            }
+
         }
-        
         return true;
     }
 };

@@ -26,14 +26,14 @@ public:
                 if(!check(up->left, uq->left)) return false;
                 if(!check(up->right, uq->right)) return false;
                 
-                if(up->left ){
+                
                     P.push(up->left);
                     Q.push(uq->left);
-                }
-                if(up->right ){
+                
+                
                     P.push(up->right);
                     Q.push(uq->right);
-                }
+                
             }
             
         }

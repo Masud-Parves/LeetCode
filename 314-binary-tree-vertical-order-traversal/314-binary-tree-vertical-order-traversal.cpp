@@ -39,7 +39,9 @@ public:
         }
         
         for(auto& node : nodes){
-            result.push_back(node.second);
+            vector<int>level;
+            level.insert(level.begin(),node.second.begin(), node.second.end());
+            result.push_back(level);
         }
         return result;
     }

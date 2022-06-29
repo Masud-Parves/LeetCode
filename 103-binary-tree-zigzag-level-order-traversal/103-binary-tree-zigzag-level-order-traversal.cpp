@@ -10,40 +10,30 @@
  * };
  */
 class Solution {
+    void preorderTraversal(TreeNode* node, int level, bool leftToRight, vector<vector<int>>& result){
+        if(node == NULL) return;
+        
+        if(result.size() == level) {
+            result.push_back(vector<int>(0));
+        }
+        
+        if(leftToRight == true) {
+            result[level].push_back(node->val);
+        } else {
+            result[level].insert(result[level].begin(), node->val);
+        }
+        
+        preorderTraversal(node->left, level+1, !leftToRight, result);
+        preorderTraversal(node->right, level+1, !leftToRight, result);
+        
+    }
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         vector<vector<int>>result;
         if(root == NULL) {
             return result;
         }
-        
-        queue<TreeNode*>Q;
-        Q.push(root);
-        
-        bool leftToRight = true;
-        
-        while(!Q.empty()){
-            int size = Q.size();
-            
-            vector<int>level(size);
-            for(int i=0; i<size; i++){
-                
-                TreeNode* node = Q.front();
-                Q.pop();
-                
-                int idx = (leftToRight == true) ? i : size-i-1;
-                level[idx] = node->val;
-                
-                if(node->left != NULL) {
-                    Q.push(node->left);
-                }
-                if(node->right != NULL){
-                    Q.push(node->right);
-                }
-            }
-            leftToRight = !leftToRight;
-            result.push_back(level);
-        }
+        preorderTraversal(root, 0, true, result);
         return result;
     }
 };

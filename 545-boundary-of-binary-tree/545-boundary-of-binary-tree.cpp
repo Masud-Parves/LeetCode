@@ -11,61 +11,72 @@
  */
 class Solution {
 private:
-    void leftBoundary(TreeNode* node, vector<int>& result){
+    bool isLeaf(TreeNode* node){
+        return (node->left == NULL && node->right == NULL);
+    }
+    
+    bool isRootNode(int flag){
+        return (flag == 0);
+    }
+    
+    bool isLeftBoundary(int flag){
+        return (flag == 1);
+    }
+    
+    bool isRightBoundary(int flag){
+        return (flag == 2);
+    }
+    
+    int leftChildFlag(TreeNode* node, int flag){
+        if(isLeftBoundary(flag) || isRootNode(flag)) {
+            return 1;
+        } else if(isRightBoundary(flag) && node->right == NULL) {
+            return 2;
+        }
+        return 3;
+    }
+    
+    int rightChildFlag(TreeNode* node, int flag){
+        if(isRightBoundary(flag) || isRootNode(flag)) {
+            return 2;
+        } else if(isLeftBoundary(flag) && node->left == NULL) {
+            return 1;
+        }
+        return 3;
+    }
+    
+    void preorderTraveral(TreeNode* node, vector<int>& leftBoundary, vector<int>&rightBoundary, vector<int>& leafBoundary, int flag){
         if(node == NULL) {
             return;
         }
-        if(node->left == NULL && node->right == NULL) {
-            return;
+        
+        if(isLeftBoundary(flag) || isRootNode(flag)) {
+            leftBoundary.push_back(node->val);
+        } else if(isRightBoundary(flag) || isRootNode(flag)) {
+            rightBoundary.insert(rightBoundary.begin(), node->val);
+        } else if(isLeaf(node)) {
+            leafBoundary.push_back(node->val);
         }
         
-        result.push_back(node->val);
+        preorderTraveral(node->left, leftBoundary, rightBoundary, leafBoundary, leftChildFlag(node, flag));
+        preorderTraveral(node->right, leftBoundary, rightBoundary, leafBoundary, rightChildFlag(node, flag));
         
-        if(node->left != NULL) {
-            leftBoundary(node->left, result);
-        } else if(node->right != NULL) {
-            leftBoundary(node->right, result);
-        }
     }
-    
-    void leafBoundary(TreeNode* node, vector<int>& result){
-        if(node == NULL) return;
-        if(node->left == NULL && node->right == NULL){
-            result.push_back(node->val);
-            return;
-        }
-        leafBoundary(node->left, result);
-        leafBoundary(node->right, result);
-    }
-    
-    void rightBoundary(TreeNode* node, vector<int>& result){
-        if(node == NULL) {
-            return;
-        }
-        if(node->left == NULL && node->right == NULL){
-           return;
-        }
-        
-        if(node->right != NULL) {
-            rightBoundary(node->right, result);
-        } else if(node->left != NULL) {
-            rightBoundary(node->left, result);
-        }
-        result.push_back(node->val);
-    }
-    
-    
 public:
     vector<int> boundaryOfBinaryTree(TreeNode* root) {
-        vector<int> result;
-        if(root == NULL){
-            return result;
+        if(root == NULL) {
+            return {};
         }
-        if(root->left || root->right)
-            result.push_back(root->val);
-        leftBoundary(root->left, result);
-        leafBoundary(root, result);
-        rightBoundary(root->right, result);
-        return result;
+        
+        vector<int> leftBoundary, rightBoundary, leafBoundary;
+        preorderTraveral(root, leftBoundary, rightBoundary, leafBoundary, 0);
+        
+        for(auto& leafNode : leafBoundary) {
+            leftBoundary.push_back(leafNode);
+        }
+        for(auto& rightNode : rightBoundary) {
+            leftBoundary.push_back(rightNode);
+        }
+        return leftBoundary;
     }
 };

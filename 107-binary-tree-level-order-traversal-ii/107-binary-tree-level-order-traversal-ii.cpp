@@ -10,6 +10,21 @@
  * };
  */
 class Solution {
+private:
+    void preorderTraversal(TreeNode* node, int level, vector<vector<int>>& result){
+        if(node == NULL){
+            return;
+        }
+        
+        if(result.size() == level){
+            result.push_back(vector<int>());
+        }
+        
+        result[level].push_back(node->val);
+        preorderTraversal(node->left, level+1, result);
+        preorderTraversal(node->right, level+1, result);
+        
+    }
 public:
     vector<vector<int>> levelOrderBottom(TreeNode* root) {
         vector<vector<int>> result;
@@ -17,27 +32,8 @@ public:
             return result;
         }
         
-        queue<TreeNode*> todo;
-        todo.push(root);
-        
-        while(!todo.empty()){
-            int size = todo.size();
-            vector<int>level;
-            
-            for(int i=0; i<size; i++){
-                TreeNode* node = todo.front();
-                todo.pop();
-                
-                level.push_back(node->val);
-                if(node->left != NULL) {
-                    todo.push(node->left);
-                }
-                if(node->right != NULL){
-                    todo.push(node->right);
-                }
-            }
-            result.insert(result.begin(), level);
-        }
+        preorderTraversal(root, 0, result);
+        reverse(result.begin(), result.end());
         return result;
     }
 };

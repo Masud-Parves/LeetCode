@@ -10,30 +10,33 @@
  * };
  */
 class Solution {
-private:
-    void dfsTraversal(TreeNode* node, vector<string>& result, string path){
-        if(node == NULL) {
-            return;
-        }
-        
-        if(node->left == NULL && node->right == NULL){
-            path += (to_string(node->val));
-            result.push_back(path);
-            return;
-        }
-        
-        path += to_string(node->val) + "->";
-        dfsTraversal(node->left, result, path);
-        dfsTraversal(node->right, result, path);
-    }
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
         vector<string>result;
         if(root == NULL){
             return result;
         }
-        string p;
-        dfsTraversal(root, result, p);
+        queue<pair<TreeNode*, string>> todo;
+        todo.push({root, to_string(root->val)});
+        
+        while(!todo.empty()){
+            auto current = todo.front();
+            todo.pop();
+            TreeNode* node = current.first;
+            string path = current.second;
+            
+            if(node->left == NULL && node->right == NULL) {
+                result.push_back(path);
+            } else {
+                if(node->left != NULL) {
+                    todo.push({node->left, path+"->"+to_string(node->left->val)});
+                }
+                if(node->right != NULL) {
+                    todo.push({node->right, path+"->"+to_string(node->right->val)});
+                }
+            }
+            
+        }
         return result;
     }
 };

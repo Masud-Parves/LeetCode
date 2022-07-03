@@ -1,35 +1,22 @@
 class Solution {
+private:
+    void dfsTraversal(TreeNode* node, int depth, unsigned long long levelIndex,unsigned long long& width, map<int, unsigned long long>& table){
+        if(node == NULL) return;
+        
+        if(table.find(depth) == table.end()){
+            table[depth] = levelIndex;
+        }
+        
+        width = max(width, levelIndex-table[depth]+1);
+        
+        dfsTraversal(node->left, depth+1, levelIndex*2, width, table);
+        dfsTraversal(node->right, depth+1, levelIndex*2 + 1, width, table);
+    }
 public:
     int widthOfBinaryTree(TreeNode* root) {
-        int result = 0;
-        if(root == NULL) {
-            return result;
-        }
-        
-        queue<pair<TreeNode*, long long>> todo;
-        todo.push({root, 0});
-        
-        while(!todo.empty()){
-            int size = todo.size();
-            long long minIdx = todo.front().second;
-            int firstIdx , lastIdx;
-            for(int i=0; i<size; i++){
-                TreeNode* node = todo.front().first;
-                long long currIdx = todo.front().second - minIdx;
-                todo.pop();
-                
-                if(i == 0) firstIdx = currIdx;
-                if(i == size-1) lastIdx = currIdx;
-                
-                if(node->left != NULL) {
-                    todo.push({node->left, 2*currIdx+1});
-                }
-                if(node->right != NULL) {
-                    todo.push({node->right, 2*currIdx+2});
-                }
-            }
-            result = max(result , lastIdx - firstIdx + 1);
-        }
-        return result;
+        unsigned long long width = 0;
+        map<int, unsigned long long> table; // level, firstIdx for each level
+        dfsTraversal(root, 0, 0, width, table); // root node, depth aka level, indexing value
+        return width;
     }
 };

@@ -11,16 +11,16 @@
  */
 class Solution {
 private:
-    int take;
-    TreeNode* buildBinaryTree(int start, int end, vector<int>& preorder, unordered_map<int, int>& index){
+    
+    TreeNode* buildBinaryTree(int start, int end, int& take, vector<int>& preorder, unordered_map<int, int>& index){
         if(start > end) {
             return NULL;
         }
         
         TreeNode* node = new TreeNode(preorder[take++]);
         int idx = index[node->val];
-        node->left = buildBinaryTree(start, idx-1, preorder, index);
-        node->right = buildBinaryTree(idx+1, end, preorder, index);
+        node->left = buildBinaryTree(start, idx-1, take, preorder, index);
+        node->right = buildBinaryTree(idx+1, end, take, preorder, index);
         return node;
     }
 public:
@@ -34,8 +34,8 @@ public:
         for(int i=0; i<inorder.size(); i++){
             index[inorder[i]] = i;
         }
-        take = 0;
-        TreeNode* root = buildBinaryTree(0, inorder.size()-1, preorder, index);
+        int take = 0;
+        TreeNode* root = buildBinaryTree(0, inorder.size()-1, take, preorder, index);
         return root;
     }
 };

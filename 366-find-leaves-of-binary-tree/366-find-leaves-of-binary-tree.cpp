@@ -11,14 +11,19 @@
  */
 class Solution {
 private:
-    int markHeightNode(TreeNode* node, vector<pair<int, int>>& pairs){
+    int markHeightNode(TreeNode* node, vector<vector<int>>& result){
         if(node == NULL) return -1;
         
-        int lh = markHeightNode(node->left, pairs);
-        int rh = markHeightNode(node->right, pairs);
+        int lh = markHeightNode(node->left, result);
+        int rh = markHeightNode(node->right, result);
         
         int height = 1 + max(lh, rh);
-        pairs.push_back({height, node->val});
+        
+        if(result.size() == height){
+            result.push_back({});
+        }
+        
+        result[height].push_back(node->val);
         
         return height;
     }
@@ -29,13 +34,9 @@ public:
             return {{}};
         }
         
-        vector<pair<int, int>> pairs;
-        int height = markHeightNode(root, pairs);
+        vector<vector<int>> result;
+        int height = markHeightNode(root, result);
         
-        vector<vector<int>> result(height+1);
-        for(auto& pair : pairs){
-            result[pair.first].push_back(pair.second);
-        }
         return result;
     }
 };

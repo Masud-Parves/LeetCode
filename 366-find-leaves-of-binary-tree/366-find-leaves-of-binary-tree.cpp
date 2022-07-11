@@ -29,13 +29,12 @@ private:
     }
 public:
     vector<vector<int>> findLeaves(TreeNode* root) {
-        
+        vector<vector<int>> result;
         if(root == NULL) {
-            return {{}};
+            return result;
         }
         
-        vector<vector<int>> result;
-        int height = markHeightNode(root, result);
+        markHeightNode(root, result);
         
         return result;
     }

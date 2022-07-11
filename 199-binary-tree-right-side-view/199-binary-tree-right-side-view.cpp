@@ -25,7 +25,9 @@ private:
 public:
     vector<int> rightSideView(TreeNode* root) {
         vector<int>ans;
-        if(root == NULL) return ans;
+        if(root == NULL) {
+            return ans;
+        }
         
         map<int,int>cache; // level, val
         

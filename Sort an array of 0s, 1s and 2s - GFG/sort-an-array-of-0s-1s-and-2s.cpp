@@ -12,14 +12,15 @@ class Solution
     {
         int left = 0, curr = 0, right = n-1;
         while(curr<=right){
-            if(a[curr] == 2){
+            if(a[curr] == 1) curr++;
+            else if(a[curr] == 0) {
+                swap(a[left], a[curr]);
+                left++;
+                curr++;
+            } else {
                 swap(a[curr], a[right]);
                 right--;
-            } else if(a[curr] == 0){
-                swap(a[curr], a[left]);
-                curr++;
-                left++;
-            } else curr++;
+            }
         }
     }
     

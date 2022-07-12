@@ -30,17 +30,17 @@ class Solution {
             
             if(i+1<n){
                 L = i, R = i+1;
-            while(L>=0 && R<n && s[L] == s[R]){
-                L--;
-                R++;
-            }
-            L++;
-            R--;
-            len = R-L+1;
-            if(len > longest){
-                longest = len;
-                longestPali = s.substr(L, R-L+1);
-            }
+                while(L>=0 && R<n && s[L] == s[R]){
+                    L--;
+                    R++;
+                }
+                L++;
+                R--;
+                len = R-L+1;
+                if(len > longest){
+                    longest = len;
+                    longestPali = s.substr(L, R-L+1);
+                }
             }
             
             

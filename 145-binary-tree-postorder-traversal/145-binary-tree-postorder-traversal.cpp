@@ -10,23 +10,44 @@
  * };
  */
 class Solution {
-private:
-    void postorderTraversal(TreeNode* node, vector<int>& result){
-        if(node == NULL){
-            return;
-        }
-        
-        postorderTraversal(node->left, result);
-        postorderTraversal(node->right, result);
-        result.push_back(node->val);
-    }
 public:
     vector<int> postorderTraversal(TreeNode* root) {
         vector<int> result;
         if(root == NULL){
             return result;
         }
-        postorderTraversal(root, result);
+        
+        stack<TreeNode*> s;
+        s.push(root);
+
+        // create another stack to store postorder traversal
+        stack<int> out;
+ 
+        // loop till stack is empty
+        while (!s.empty())
+        {
+            // pop a node from the stack and push the data into the output stack
+            TreeNode* curr = s.top();
+            s.pop();
+
+            out.push(curr->val);
+
+            // push the left and right child of the popped node into the stack
+            if (curr->left) {
+                s.push(curr->left);
+            }
+
+            if (curr->right) {
+                s.push(curr->right);
+            }
+        }
+ 
+        // print postorder traversal
+        while (!out.empty())
+        {
+            result.push_back(out.top());
+            out.pop();
+        }
         return result;
     }
 };

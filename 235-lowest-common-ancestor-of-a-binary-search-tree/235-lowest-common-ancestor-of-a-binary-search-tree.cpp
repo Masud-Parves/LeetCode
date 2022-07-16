@@ -13,14 +13,18 @@ public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         if(root == NULL) return NULL;
         
-        int currVal = root->val;
-        if(currVal>p->val && currVal>q->val){
-            return lowestCommonAncestor(root->left, p, q);
-        }
-        if(currVal<p->val && currVal<q->val){
-            return lowestCommonAncestor(root->right, p, q);
+        TreeNode* curr = root;
+        while(curr != NULL){
+            int currVal = curr->val;
+            if(currVal>p->val && currVal>q->val){
+                curr = curr->left;
+            } else if(currVal < p->val && currVal <q->val){
+                curr = curr->right;
+            } else {
+                return curr;
+            }
         }
         
-        return root;
+        return NULL;
     }
 };

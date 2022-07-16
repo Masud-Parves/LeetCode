@@ -28,7 +28,7 @@ public:
                 int v = node.first;	
                 int childCost = node.second;	
                 	
-                if(dis[v] > dis[u] + childCost){	
+                if(dis[v] > uCost + childCost){	
                     dis[v] = dis[u] + childCost;	
                     paths[v] = paths[u];	
                     pq.push({dis[v], v});	

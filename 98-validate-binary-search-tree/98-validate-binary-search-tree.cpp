@@ -11,27 +11,19 @@
  */
 class Solution {
 private:
-    TreeNode* prev;
-    bool inorderTraversal(TreeNode* node){
-        if(node == NULL) {
+    bool isValid(TreeNode* node, long long minValue, long long maxValue){
+        if(node == NULL){
             return true;
         }
         
-        if(!inorderTraversal(node->left)) return false;
-        
-        if(prev != NULL && node->val<=prev->val) return false;
-        prev = node;
-        return inorderTraversal(node->right);
-        
-        
+        if(node->val<=minValue or node->val>=maxValue) return false;
+        return isValid(node->left, minValue, node->val) && isValid(node->right, node->val, maxValue);
     }
 public:
     bool isValidBST(TreeNode* root) {
         if(root == NULL){
             return true;
         }
-        
-        return inorderTraversal(root);
+        return isValid(root, LLONG_MIN, LLONG_MAX);
     }
-    
 };

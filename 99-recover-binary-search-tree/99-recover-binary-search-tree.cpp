@@ -11,13 +11,18 @@
  */
 class Solution {
 private:
-    void inorderTraversal(TreeNode* node, vector<TreeNode*>& inorder){
+    pair<TreeNode*, TreeNode*>p[2];
+    void inorderTraversal(TreeNode* node, vector<TreeNode*>& inorder, TreeNode* &prev, int& invalid){
         if(node == NULL){
             return;
         }
-        inorderTraversal(node->left, inorder);
-        inorder.push_back(node);
-        inorderTraversal(node->right, inorder);
+        inorderTraversal(node->left, inorder, prev, invalid);
+        if(prev != NULL && (prev->val > node->val)){
+            p[invalid] = {prev, node};
+            invalid++;
+        }
+        prev = node;
+        inorderTraversal(node->right, inorder, prev, invalid);
     }
 public:
     void recoverTree(TreeNode* root) {
@@ -25,20 +30,13 @@ public:
             return;
         }
         vector<TreeNode*> inorder;
-        inorderTraversal(root, inorder);
-        int n = inorder.size();
         int invalid = 0;
-        pair<int, int> p[2];
-        for(int i=0; i<n-1; i++){
-            if(inorder[i]->val > inorder[i+1]->val) {
-                p[invalid] = {i , i+1};
-                invalid++;
-            }
-        }
+        TreeNode* prev = NULL;
+        inorderTraversal(root, inorder, prev, invalid);
         if(invalid == 2){
-            swap(inorder[p[0].first]->val, inorder[p[1].second]->val);
+            swap(p[0].first->val, p[1].second->val);
         } else {
-            swap(inorder[p[0].first]->val, inorder[p[0].second]->val);
+            swap(p[0].first->val, p[0].second->val);
         }
     }
 };

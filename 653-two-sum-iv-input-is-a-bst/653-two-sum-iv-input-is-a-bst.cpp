@@ -10,29 +10,19 @@
  * };
  */
 class Solution {
-private:
-    void inorderTraversal(TreeNode* node, vector<int>& inorder){
+    bool dfsTraversal(TreeNode* node, int target, unordered_set<int>& seen){
         if(node == NULL){
-            return;
+            return false;
         }
-        inorderTraversal(node->left, inorder);
-        inorder.push_back(node->val);
-        inorderTraversal(node->right, inorder);
+        if(seen.find(target-node->val) != seen.end()){
+            return true;
+        }
+        seen.insert(node->val);
+        return dfsTraversal(node->left, target, seen) || dfsTraversal(node->right, target, seen);
     }
 public:
-    bool findTarget(TreeNode* root, int target) {
-        vector<int>inorder;
-        inorderTraversal(root, inorder);
-        int left = 0, right = inorder.size()-1;
-        while(left<right){
-            if(inorder[left] + inorder[right] == target){
-                return true;
-            } else if(inorder[left] + inorder[right] < target){
-                left++;
-            } else {
-                right--;
-            }
-        }
-        return false;
+    bool findTarget(TreeNode* root, int k) {
+        unordered_set<int> seen;
+        return dfsTraversal(root, k, seen);
     }
 };

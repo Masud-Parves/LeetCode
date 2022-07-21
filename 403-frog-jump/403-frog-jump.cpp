@@ -35,7 +35,7 @@ public:
         for(int i=0; i<n; i++){
             mp[stones[i]] = i;
         }
-        vector<vector<int>> DP(2001, vector<int>(2001, -1));
+        vector<vector<int>> DP(n+1, vector<int>(n+1, -1));
         return helper(1, 1, stones, mp, DP);
     }
 };

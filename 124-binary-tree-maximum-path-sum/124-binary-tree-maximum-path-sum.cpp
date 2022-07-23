@@ -10,23 +10,29 @@
  * };
  */
 class Solution {
-        int getMaxPathSum(TreeNode* node, int& result){
-        if(node == NULL) {
+private:
+    int calculateMaxSum(TreeNode* node, int& result){
+        if(node == NULL){
             return 0;
         }
         
-        int leftSum = max(0, getMaxPathSum(node->left, result));
-        int rightSum = max(0, getMaxPathSum(node->right, result));
+        int left = calculateMaxSum(node->left, result);
+        int right = calculateMaxSum(node->right, result);
         
-        result = max(result, node->val + leftSum + rightSum);
-            
-        return node->val + max(leftSum , rightSum);
+        int single_path = max(max(left, right)+node->val, node->val);
+        int both_path = max(single_path, left+right+node->val);
+
+        result = max(result, both_path);
+        return single_path;
     }
-    
 public:
     int maxPathSum(TreeNode* root) {
+        if(root == NULL){
+            return 0;
+        }
+        
         int result = INT_MIN;
-        getMaxPathSum(root, result);
+        calculateMaxSum(root, result);
         return result;
     }
 };

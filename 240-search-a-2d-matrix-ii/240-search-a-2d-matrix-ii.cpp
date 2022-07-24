@@ -32,7 +32,9 @@ private:
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
         int rows = matrix.size(), cols = matrix[0].size();
-        
+        if(rows == 1 && cols == 1){
+            return matrix[0][0] == target;
+        }
         int minDiagonal = min(rows, cols);
         for(int i=0; i<minDiagonal ; i++){
             

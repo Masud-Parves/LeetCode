@@ -6,9 +6,9 @@ private:
             return;
         }
         
-        for(int i=idx+1; i<=n; i++){
+        for(int i=idx; i<=n; i++){
             path.push_back(i);
-            backtrack(i, n, k, path, result);
+            backtrack(i+1, n, k, path, result);
             path.pop_back();
         }
         return;
@@ -17,7 +17,7 @@ public:
     vector<vector<int>> combine(int n, int k) {
         vector<vector<int>> result;
         vector<int>path;
-        backtrack(0, n, k, path, result);
+        backtrack(1, n, k, path, result);
         return result;
     }
 };

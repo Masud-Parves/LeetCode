@@ -6,16 +6,18 @@ private:
             return;
         }
         
-        
+        helper(idx+1, s, str, result);
         if(isalpha(s[idx])){
-            str[idx] = toupper(s[idx]);
-            helper(idx+1, s, str, result);
-            str[idx] = tolower(s[idx]);
-            helper(idx+1, s, str, result);
-        } else {
-            helper(idx+1, s, str, result);
-        }
-        
+            if(islower(s[idx])){
+                str[idx] = toupper(s[idx]);
+                helper(idx+1, s, str, result);
+                str[idx] = s[idx];
+            } else {
+                str[idx] = tolower(s[idx]);
+                helper(idx+1, s, str, result);
+                str[idx] = s[idx];
+            }
+        } 
     }
 public:
     vector<string> letterCasePermutation(string s) {

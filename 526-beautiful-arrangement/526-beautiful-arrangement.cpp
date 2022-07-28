@@ -6,7 +6,6 @@ private:
             return;
         }
     
-    
         for(int i=1; i<=n ;i++){
             if(seen[i] == false){
                 int sz = take+1;
@@ -19,18 +18,16 @@ private:
                 }
             }
         }
-    
-    
+        return;
     }
 public:
     int countArrangement(int n) {
         vector<vector<int>> permutations;
         
-        int take = 0;
+        int take = 0, result = 0;
         vector<bool> seen(n+1, false);
-        int ret = 0;
-        generatePermutations(take, n, seen, ret);
+        generatePermutations(take, n, seen, result);
         
-        return ret;
+        return result;
     }
 };

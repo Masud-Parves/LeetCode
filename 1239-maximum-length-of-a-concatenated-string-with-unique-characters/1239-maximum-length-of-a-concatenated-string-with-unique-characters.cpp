@@ -31,11 +31,7 @@ private:
             else visited[id] = '0';
         }
     }
-    void pop(string& currSeq, int n){
-        for(int i=0; i<n; i++){
-            currSeq.pop_back();
-        }
-    }
+
     void backtrack(int idx, vector<string>& words, string& visited, string currSeq, int& result){
         if(idx == words.size()){
             result = max(currSeq.size(), result);

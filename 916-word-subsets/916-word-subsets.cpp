@@ -25,8 +25,7 @@ public:
             for(auto& w : word){
                 fk[w-'a']++;
             }
-            
-            for(char c='a'; c<='z'; c++){
+            for(auto& c : word){
                 int id = c-'a';
                 if(fk[id]){
                     freq[c] = max(fk[id], freq[c]);

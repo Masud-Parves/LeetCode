@@ -1,19 +1,20 @@
 class Solution {
 private:
-    void backtrack(int idx, int n, unordered_map<string, int>& seen, string& res, string& ans){
+    bool backtrack(int idx, int n, unordered_map<string, int>& seen, string& res, string& ans){
         if(idx == n){
             if(seen.find(res) == seen.end()){
                 ans = res;
+                return true;
             }
-            return;
+            return false;
         }
         
         
         res[idx] = '1';
-        backtrack(idx+1, n, seen, res, ans);
+        if(backtrack(idx+1, n, seen, res, ans)) return true;
         res[idx] = '0';
         
-        backtrack(idx+1, n, seen, res, ans);
+        return backtrack(idx+1, n, seen, res, ans);
     }
 public:
     string findDifferentBinaryString(vector<string>& nums) {

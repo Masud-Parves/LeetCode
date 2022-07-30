@@ -48,7 +48,7 @@ private:
             
             backtrack(idx+1, words, visited, currSeq, result);
             
-            pop(currSeq, words[idx].size());
+            currSeq.erase(currSeq.size()-words[idx].size());
             take(words[idx], visited, false);
         }
         backtrack(idx+1, words, visited, currSeq, result);

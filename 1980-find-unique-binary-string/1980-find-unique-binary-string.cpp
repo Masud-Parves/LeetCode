@@ -1,9 +1,8 @@
 class Solution {
 private:
-    bool backtrack(int idx, int n, unordered_map<string, int>& seen, string& res, string& ans){
+    bool backtrack(int idx, int n, unordered_map<string, int>& seen, string& res){
         if(idx == n){
             if(seen.find(res) == seen.end()){
-                ans = res;
                 return true;
             }
             return false;
@@ -11,10 +10,10 @@ private:
         
         
         res[idx] = '1';
-        if(backtrack(idx+1, n, seen, res, ans)) return true;
+        if(backtrack(idx+1, n, seen, res)) return true;
         res[idx] = '0';
         
-        return backtrack(idx+1, n, seen, res, ans);
+        return backtrack(idx+1, n, seen, res);
     }
 public:
     string findDifferentBinaryString(vector<string>& nums) {
@@ -27,9 +26,8 @@ public:
         }
         
         if(seen.find(result) == seen.end()) return result;
-        //cout << "case" << endl;
-        string ans="";
-        backtrack(0, n, seen, result, ans);
-        return ans;
+
+        backtrack(0, n, seen, result);
+        return result;
     }
 };

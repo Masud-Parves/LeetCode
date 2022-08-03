@@ -1,19 +1,25 @@
 class MyCalendar {
+private:
+    map<int, int> seen;
 public:
     
-    set<pair<int, int>>booking;
-    
     MyCalendar() {
-        booking.clear();
+        seen.clear();
     }
     
     bool book(int start, int end) {
-        auto it = booking.upper_bound({start, end});
+        seen[start]++;
+        seen[end]--;
+        int sum = 0;
         
-        if(it != booking.end() && it->second<end){
-            return false;
+        for(auto& it : seen){
+            sum += it.second;
+            if(sum>1){
+                seen[start]--;
+                seen[end]++;
+                return false;
+            }
         }
-        booking.insert({end, start});
         return true;
     }
 };

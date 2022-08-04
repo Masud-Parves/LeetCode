@@ -1,14 +1,22 @@
 class Solution {
 private:
-    bool dfs(int u, int dest, vector<vector<int>>& graph, set<int>& seen){
+    bool bfs(int src, int dest, vector<vector<int>>& graph, set<int>& seen){
+        queue<int> Q;
+        Q.push(src);
+        seen.insert(src);
         
-        if(seen.find(u) == seen.end()){
-            seen.insert(u);
+        while(!Q.empty()){
+            int u = Q.front();
+            Q.pop();
             if(u == dest) return true;
-            for(auto& v : graph[u]){
-                if(dfs(v, dest, graph, seen)) return true; 
+            for(int v : graph[u]){
+                if(seen.find(v) == seen.end()){
+                    Q.push(v);
+                    seen.insert(v);
+                }
             }
         }
+        
         return false;
     }
 public:
@@ -20,7 +28,7 @@ public:
         for(auto& edge : edges){
             seen.clear();
             if(!graph[edge[0]].empty() && !graph[edge[1]].empty() &&
-              dfs(edge[0], edge[1], graph, seen)){
+              bfs(edge[0], edge[1], graph, seen)){
                 return edge;
             }
             graph[edge[0]].push_back(edge[1]);

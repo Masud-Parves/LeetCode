@@ -22,7 +22,19 @@ private:
 public:
     bool canJump(vector<int>& nums) {
         int n = nums.size();
-        vector<int>DP(n, -1);
-        return helper(0, nums, DP);
+        vector<int>DP(n, 0);
+        
+        DP[n-1] = 1;
+        for(int i=n-2; i>=0; i--){
+            DP[i] = 0;
+            for(int k=1; k<=nums[i] ; k++){
+                if(i+k<n)
+                    DP[i] = DP[i+k];
+                if(DP[i] == 1) break;
+            }
+        }
+        
+        
+        return DP[0];
     }
 };

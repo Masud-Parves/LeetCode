@@ -19,7 +19,7 @@ private:
         
         
         if(take == 1){
-            way1 = way1-idx;
+            way1 -= idx;
         } else {
             way1 += idx;
         }

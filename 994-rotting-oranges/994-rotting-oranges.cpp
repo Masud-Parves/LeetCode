@@ -1,55 +1,39 @@
 class Solution {
 
 public:
-    int orangesRotting(vector<vector<int>>& grid) {
-        int row = grid.size(), col = grid[0].size();
-        queue<pair<int, int>>Q;
-        bool done = false;
-        int fresh = 0;
-        for(int r=0; r<row; r++){
-            for(int c=0; c<col; c++){
-                if(grid[r][c] == 2){
-                    Q.push({r, c});
-                } else if(grid[r][c] == 1){
-                    fresh++;
-                }
-            }
+    int orangesRotting(vector<vector<int>>& grid) {        
+	int freshOranges = 0;
+    queue<pair<int, int>> q;
+        
+    for(int i = 0; i < grid.size(); i++) {
+		for(int j = 0; j < grid[0].size(); j++) {
+			if(grid[i][j] == 1)
+				freshOranges++;
+            else if(grid[i][j] == 2)
+				q.push({i, j});
         }
-        Q.push({-1, -1}); // mark level end
-        int fx[4] = {1, -1, 0, 0};
-        int fy[4] = {0, 0, 1, -1};
-        
-        
-        int level = -1;
-        while(!Q.empty()){
-            int ux = Q.front().first;
-            int uy = Q.front().second;
-            Q.pop();
-            
-            if(ux == -1) {
-                level++;
-                if(!Q.empty()){
-                    Q.push({-1, -1});
-                }
-            } else {
-                for(int i=0; i<4; i++){
-                int vx = ux + fx[i];
-                int vy = uy + fy[i];
-                
-                    if(vx>=0 && vx<row && vy>=0 && vy<col && grid[vx][vy]==1){
-                        //cout << vx << " " << vy << " " << grid[vx][vy] << endl;
-                        grid[vx][vy] = 2;
-                        fresh--;
-                        //cout << "yes " << vx << " " << vy << endl;
-                        Q.push({vx, vy});
-                    }
-                
-                }
-            }
- 
-        }
-        
-        
-        return fresh == 0 ? level : -1;
     }
+    if(freshOranges == 0) return 0;
+	int dx[] = {0, 0, 1, -1};
+    int dy[] = {1, -1, 0, 0};
+    int time = -1;
+    while(!q.empty()) {
+		int n = q.size();
+        time++;
+        while(n--) {
+			int x = q.front().first, y = q.front().second;
+            q.pop();
+            for(int i = 0; i < 4; ++i) {
+				int nx = x + dx[i], ny = y + dy[i];
+                if(nx >= 0 && nx < grid.size() && ny >= 0 && ny < grid[0].size() && grid[nx][ny] == 1) {
+					grid[nx][ny] = 2;
+                    q.push({nx, ny});
+                    freshOranges--;
+                }
+            }
+        }
+    }
+        
+    return freshOranges == 0 ? time : -1;
+}
 };

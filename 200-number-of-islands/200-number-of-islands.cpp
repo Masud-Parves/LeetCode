@@ -1,44 +1,68 @@
-class Solution {
+class Union_Find{
 private:
-    int fx[4] = {0, 0, 1, -1};
-    int fy[4] = {1, -1, 0, 0};
-    void bfs(int r, int c, vector<vector<bool>>& visited, vector<vector<char>>& grid){
+    vector<int>root;
+    int count;
+public:
+    Union_Find(vector<vector<char>>& grid){
         int row = grid.size(), col = row ? grid[0].size() : 0;
-        queue<pair<int, int>> Q;
-        Q.push({r, c});
-        visited[r][c] = true;
-        
-        while(!Q.empty()){
-            auto uNode = Q.front();
-            Q.pop();
-            
-            int ux = uNode.first;
-            int uy = uNode.second;
-            
-            for(int i=0; i<4; i++){
-                int vx = ux + fx[i];
-                int vy = uy + fy[i];
-                if(vx>=0 && vx<row && vy>=0 && vy<col && grid[vx][vy]=='1' && visited[vx][vy]==false){
-                    Q.push({vx, vy});
-                    visited[vx][vy] = true;
+        count = 0;
+        for(int i=0; i<row ; i++){
+            for(int j=0; j<col; j++){
+                if(grid[i][j] == '1'){
+                    root.push_back(i*col + j);
+                    count++;
+                } else {
+                    root.push_back(-1);
                 }
             }
         }
     }
+    
+    int Find(int x){
+        if(x == root[x]){
+            return x;
+        }
+        return root[x] = Find(root[x]);
+    }
+    
+    void Union(int x, int y){
+        int rootX = Find(x);
+        int rootY = Find(y);
+        if(rootX == rootY) return;
+        root[rootY] = rootX;
+        count--;
+    }
+    
+    int getCount(){
+        return count;
+    }
+    
+};
+
+class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
         int row = grid.size(), col = row ? grid[0].size() : 0;
-        int islands = 0;
-        vector<vector<bool>> visited(row, vector<bool>(col, false));
+        int fx[4] = {0, 0, -1, 1};
+        int fy[4] = {1, -1, 0, 0};
         
-        for(int i=0; i<row; i++){
-            for(int j=0; j<col; j++){
-                if(grid[i][j] == '1' && visited[i][j] == false){
-                    bfs(i, j, visited, grid);
-                    islands++;
+        Union_Find dsu(grid);
+        vector<vector<bool>> visited(row, vector<bool>(col, false));
+        for(int r=0; r<row; r++){
+            for(int c=0; c<col; c++){
+                if(grid[r][c] == '1' && visited[r][c]==false){
+                    visited[r][c] = true;
+                    for(int k=0; k<4; k++){
+                        int nr = r + fx[k];
+                        int nc = c + fy[k];
+                        if(nr>=0 && nr<row && nc>=0 && nc<col && grid[nr][nc] == '1' && visited[nr][nc] == false){
+                            dsu.Union(r*col + c, nr*col+nc);
+                        }
+                    }
                 }
             }
         }
-        return islands;
+        
+        return dsu.getCount();
     }
 };

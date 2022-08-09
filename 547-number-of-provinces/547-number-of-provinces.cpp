@@ -1,12 +1,19 @@
 class Solution {
 private:
-    void dfs(int u, vector<vector<int>>& mat, vector<bool>& visited){
-        if(visited[u] == true ) return;
+    void bfs(int src, vector<vector<int>>& mat, vector<bool>& visited){
+        queue<int>Q;
+        visited[src] = true;
+        Q.push(src);
         
-        visited[u] = true;
-        for(int i=0; i<mat.size(); i++){
-            if(mat[u][i] == 1){
-                dfs(i, mat, visited);
+        while(!Q.empty()){
+            int u = Q.front();
+            Q.pop();
+            
+            for(int i=0; i<mat.size(); i++){
+                if(mat[u][i] == 1 && visited[i] == false){
+                    Q.push(i);
+                    visited[i] = true;
+                }
             }
         }
     }
@@ -17,7 +24,7 @@ public:
         int ret = 0;
         for(int i=0; i<n; i++){
             if(visited[i] == false){
-                dfs(i, mat, visited);
+                bfs(i, mat, visited);
                 ret++;
             }
         }

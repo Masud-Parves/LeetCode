@@ -10,20 +10,16 @@
  * };
  */
 class Solution {
-private:
-    bool isValid(TreeNode* node, long long minValue, long long maxValue){
-        if(node == NULL){
-            return true;
-        }
+    bool isValid(TreeNode* node, long long minVal, long long maxVal){
+        if(node == NULL) return true;
         
-        if(node->val<=minValue or node->val>=maxValue) return false;
-        return isValid(node->left, minValue, node->val) && isValid(node->right, node->val, maxValue);
+        if(node->val>=maxVal or node->val<=minVal) return false;
+        return isValid(node->left, minVal, node->val) && isValid(node->right, node->val, maxVal);
+        
     }
 public:
     bool isValidBST(TreeNode* root) {
-        if(root == NULL){
-            return true;
-        }
+        if(root == NULL) return true;
         return isValid(root, LLONG_MIN, LLONG_MAX);
     }
 };

@@ -1,13 +1,6 @@
-// -1 unvisited/ uncolored
-// white 1
-// black 0
-
-
 class Solution {
 public:
-    
     bool dfs(int u, int clr, vector<int>& color, vector<vector<int>>& graph){
-        
         color[u] = clr;
         for(auto& v : graph[u]){
             if(color[v] != -1){
@@ -19,18 +12,7 @@ public:
         return true;
     }
     
-     bool dfs(vector<vector<int>> &graph, int cur, int clr, vector<int> &color){
-        color[cur] = clr;
-        for(auto &child : graph[cur]){
-            if(color[child] != -1){
-                if(clr == color[child]) return false;
-            }else{
-                if(dfs(graph, child, abs(clr-1), color) == false) return false;
-            }
-        }
-        return true;
-    }
-    
+
     bool isBipartite(vector<vector<int>>& graph) {
         int node = graph.size();
         

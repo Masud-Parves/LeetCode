@@ -1,7 +1,7 @@
 /*
 Problems Link : 
 TC - O(n)
-SC - O(n)
+SC - O(1)
 */
 
 class Solution {
@@ -12,13 +12,12 @@ public:
         if(n==1) return nums[0];
 
         int maxSubarraySum = nums[0];
-
-        vector<int> maxSumEnd(n);
-        maxSumEnd[0] = nums[0];
+        int maxSumEnd = nums[0];
+        
 
         for(int i=1; i<n; i++){
-            maxSumEnd[i] = max(maxSumEnd[i-1]+nums[i], nums[i]);
-            maxSubarraySum = max(maxSubarraySum, maxSumEnd[i]);
+            maxSumEnd = max(maxSumEnd+nums[i], nums[i]);
+            maxSubarraySum = max(maxSubarraySum, maxSumEnd);
         }
         return maxSubarraySum;
     }

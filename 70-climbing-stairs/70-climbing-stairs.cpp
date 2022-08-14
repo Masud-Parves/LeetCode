@@ -1,19 +1,19 @@
 /*
 Problems Link : https://leetcode.com/problems/climbing-stairs/
 TC - O(n)
-SC - O(n) + O(n)Resursion Stack Memory used
+SC - O(1)
 */
 
 class Solution {
 public:
     int climbStairs(int n) {
-        vector<int> DP(n+1, 0);
-        DP[0] = 1;
-
-        for(int i=1; i<=n; i++){
-            DP[i] = DP[i-1];
-            DP[i]+= (i-2>=0) ? DP[i-2] : 0;
+        if(n<=1) return n;
+        int lastClimb = 1, secondLastClimb = 1, currentClimb = 0;
+        for(int i=2; i<=n; i++){
+            currentClimb = secondLastClimb + lastClimb;
+            secondLastClimb = lastClimb;
+            lastClimb = currentClimb;
         }
-        return DP[n];
+        return currentClimb;
     }
 };

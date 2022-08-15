@@ -6,17 +6,20 @@
 
 class Solution {
 public:
-    int uniquePaths(int m, int n) {
-        vector<vector<int>> DP(m, vector<int>(n, 0));
-        for(int r=0; r<m ; r++){
-            for(int c=0; c<n; c++){
-                if(r==0 && c == 0) DP[r][c] = 1;
+    int uniquePaths(int row, int col) {
+        vector<int> previous(col, 0);
+        
+        for(int r=0; r<row ; r++){
+            vector<int> current(col, 0);
+            for(int c=0; c<col ; c++){
+                if(r==0 && c==0) current[c] = 1;
                 else {
-                    if(r>0) DP[r][c] += DP[r-1][c];
-                    if(c>0) DP[r][c] += DP[r][c-1];
+                    if(r>0)  current[c] += previous[c];
+                    if(c>0)  current[c] += current[c-1]; 
                 }
             }
+            previous = current;
         }
-        return DP[m-1][n-1];
+        return previous[col-1];
     }
 };

@@ -2,26 +2,22 @@ class Solution {
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int rows = triangle.size();
-        vector<vector<int>> DP(rows);
+        vector<int> next(rows, INT_MAX/2);
 
-        for(int r=0; r<rows; r++){
-            DP[r].resize(r+1);
-            for(int c=0; c<=r; c++){
-                DP[r][c] = INT_MAX/2;
-            }
-        }
         // Base Case
         for(int c=0; c<rows; c++){
-            DP[rows-1][c] = triangle[rows-1][c];
+            next[c] = triangle[rows-1][c];
         }
         
         for(int r=rows-2; r>=0; r--){
+            vector<int> current(rows, INT_MAX/2);
             for(int c=r; c>=0 ; c--){
-                DP[r][c] = min(DP[r][c], triangle[r][c]+DP[r+1][c]);
-                DP[r][c] = min(DP[r][c], triangle[r][c]+DP[r+1][c+1]);
+                current[c] = min(current[c], triangle[r][c]+next[c]);
+                current[c] = min(current[c], triangle[r][c]+next[c+1]);
             }
+            next = current;
         }
         
-        return DP[0][0];
+        return next[0];
     }
 };

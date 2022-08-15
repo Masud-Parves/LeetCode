@@ -15,14 +15,17 @@ private:
         bool state = false;
         if(prevIdx-1!=0 && seen.find(stones[idx]+prevIdx-1) != seen.end()){
             state |= helper(seen[stones[idx]+prevIdx-1], prevIdx-1, seen, stones, DP, n);
+            if(state) return cache = state;
         }
 
         if(seen.find(stones[idx]+prevIdx) != seen.end()){
             state |= helper(seen[stones[idx]+prevIdx], prevIdx, seen, stones, DP, n);
+            if(state) return cache = state;
         }
 
         if(seen.find(stones[idx]+prevIdx+1) != seen.end()){
             state |= helper(seen[stones[idx]+prevIdx+1], prevIdx+1, seen, stones, DP, n);
+            if(state) return cache = state;
         }
         return cache = state;
     }

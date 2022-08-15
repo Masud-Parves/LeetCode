@@ -1,20 +1,4 @@
-
 class Solution {
-private:
-    int helper(int r, int c, vector<vector<int>>& triangle, vector<vector<int>>& DP, int rows){
-        if(r == rows-1){
-            return triangle[r][c];
-        }
-
-        int& cache = DP[r][c];
-        if(cache != -1){
-            return cache;
-        }
-        int way1, way2;
-        way1 = triangle[r][c] + helper(r+1, c, triangle, DP, rows);
-        way2 = triangle[r][c] + helper(r+1, c+1, triangle, DP, rows);
-        return cache = min(way1, way2);
-    }
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
         int rows = triangle.size();
@@ -23,9 +7,21 @@ public:
         for(int r=0; r<rows; r++){
             DP[r].resize(r+1);
             for(int c=0; c<=r; c++){
-                DP[r][c] = -1;
+                DP[r][c] = INT_MAX/2;
             }
         }
-        return helper(0, 0, triangle, DP, rows);
+        // Base Case
+        for(int c=0; c<rows; c++){
+            DP[rows-1][c] = triangle[rows-1][c];
+        }
+        
+        for(int r=rows-2; r>=0; r--){
+            for(int c=r; c>=0 ; c--){
+                DP[r][c] = min(DP[r][c], triangle[r][c]+DP[r+1][c]);
+                DP[r][c] = min(DP[r][c], triangle[r][c]+DP[r+1][c+1]);
+            }
+        }
+        
+        return DP[0][0];
     }
 };

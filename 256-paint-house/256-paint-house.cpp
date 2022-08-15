@@ -2,7 +2,7 @@ class Solution {
 public:
 int minCost(vector<vector<int>>& costs) {
         int n = costs.size();
-        vector<vector<int>> DP(n, vector<int>(4, INT_MAX/2));
+        vector<vector<int>> DP(n, vector<int>(4));
 
         DP[0][0] = min(costs[0][1], costs[0][2]);
         DP[0][1] = min(costs[0][0], costs[0][2]);

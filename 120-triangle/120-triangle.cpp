@@ -1,36 +1,31 @@
+
 class Solution {
 private:
-    int calculateMinimumPathSum(int r, int c, vector<vector<int>>& triangle, vector<vector<int>>& DP){
-        
-        if(r == triangle.size()){
-            return 0;
+    int helper(int r, int c, vector<vector<int>>& triangle, vector<vector<int>>& DP, int rows){
+        if(r == rows-1){
+            return triangle[r][c];
         }
-        
-        int &cache = DP[r][c];
+
+        int& cache = DP[r][c];
         if(cache != -1){
             return cache;
         }
-        int way1 , way2;
-        way1 = triangle[r][c] + calculateMinimumPathSum(r+1, c, triangle, DP);
-        way2 = triangle[r][c] + calculateMinimumPathSum(r+1, c+1, triangle, DP);
-        
+        int way1, way2;
+        way1 = triangle[r][c] + helper(r+1, c, triangle, DP, rows);
+        way2 = triangle[r][c] + helper(r+1, c+1, triangle, DP, rows);
         return cache = min(way1, way2);
-        
-        
     }
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        int row = triangle.size();
-        
-        vector<vector<int>> DP(row);
-        for(int i=0; i< row ; i++){
-            DP[i].resize(i+1);
-            for(int j=0; j<=i; j++){
-                DP[i][j] = -1;
+        int rows = triangle.size();
+        vector<vector<int>> DP(rows);
+
+        for(int r=0; r<rows; r++){
+            DP[r].resize(r+1);
+            for(int c=0; c<=r; c++){
+                DP[r][c] = -1;
             }
         }
-        
-        
-        return calculateMinimumPathSum(0, 0, triangle, DP);
+        return helper(0, 0, triangle, DP, rows);
     }
 };

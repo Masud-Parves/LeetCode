@@ -1,23 +1,22 @@
+/*
+    Problems Link : https://leetcode.com/problems/unique-paths/
+    TC - O(n*m)
+    SC - O(n*m)
+*/
+
 class Solution {
-private:
-    int helper(int r, int c, int row, int col, vector<vector<int>>& DP){
-        if(r<0 || r==row || c<0 || c==col) return 0;
-        if(r == row-1 && c == col-1){
-            return 1;
-        }
-
-        int& cache = DP[r][c];
-        if(cache != -1){
-            return cache;
-        }
-
-        int way1 = helper(r, c+1, row, col, DP);
-        int way2 = helper(r+1, c, row, col, DP);
-        return cache = (way1+way2);
-    }
 public:
     int uniquePaths(int m, int n) {
-        vector<vector<int>> DP(m, vector<int>(n, -1));
-        return helper(0, 0, m, n, DP);
+        vector<vector<int>> DP(m, vector<int>(n, 0));
+        for(int r=0; r<m ; r++){
+            for(int c=0; c<n; c++){
+                if(r==0 && c == 0) DP[r][c] = 1;
+                else {
+                    if(r>0) DP[r][c] += DP[r-1][c];
+                    if(c>0) DP[r][c] += DP[r][c-1];
+                }
+            }
+        }
+        return DP[m-1][n-1];
     }
 };

@@ -1,28 +1,23 @@
 class Solution {
-private:
-    int calculateMinimumCoins(int idx, int amount, vector<int>& coins, int n, vector<vector<int>>& DP){
-        if(idx == n-1){
-            if(amount%coins[idx]==0) return amount/coins[idx];
-            return INT_MAX/2;
-        }
-
-        int& cache = DP[idx][amount];
-        if(cache != -1){
-            return cache;
-        }
-
-        int way1 = 0, way2 = INT_MAX/2;
-        way1 = calculateMinimumCoins(idx+1, amount, coins, n, DP);
-        if(coins[idx]<=amount){
-            way2 = 1 + calculateMinimumCoins(idx, amount-coins[idx], coins, n, DP);
-        }
-        return cache = min(way1, way2);
-    }
 public:
     int coinChange(vector<int>& coins, int amount) {
         int n = coins.size();
-        vector<vector<int>> DP(n, vector<int>(amount+1, -1));
-        int result = calculateMinimumCoins(0, amount, coins, n, DP);
-        return (result == INT_MAX/2) ? -1 : result;
+        vector<vector<int>> DP(n, vector<int>(amount+1, INT_MAX/2));
+        
+        for(int cash=0; cash<=amount; cash++){
+            if(cash%coins[0] == 0) DP[0][cash] = cash/coins[0];
+            else DP[0][cash] = INT_MAX/2;
+        }
+
+        for(int idx=1; idx<n; idx++){
+            for(int cash=0; cash<=amount; cash++){
+                int non_pick = DP[idx-1][cash], pick = INT_MAX/2; 
+                if(cash>=coins[idx]){
+                    pick = 1 + DP[idx][cash-coins[idx]];
+                }
+                DP[idx][cash] = min(pick, non_pick);
+            }
+        }
+        return (DP[n-1][amount] == INT_MAX/2) ? -1 : DP[n-1][amount];
     }
 };

@@ -6,32 +6,6 @@
 
 class Solution {
 public:
-    
-    int calculateWays(int idx, int target, vector<int>& nums, vector<vector<int>>&DP){
-        
-        if(idx == nums.size()-1){
-            if(target == 0 && nums[idx] == 0) return 2;
-            if(target == 0 || target == nums.back()) return 1;
-            return 0;
-        }
-        
-        
-        int &cache = DP[idx][target];
-        if(cache != -1){
-            return cache;
-        }
-        
-        int pick = 0, not_pick = 0;
-
-        not_pick = calculateWays(idx+1, target, nums, DP);
-        if(nums[idx]<=target) {
-            pick = calculateWays(idx+1, target-nums[idx], nums, DP);
-        }
-        
-        return cache = (pick + not_pick);
-        
-    }
-    
     int findTargetSumWays(vector<int>& nums, int target) {
         int n = nums.size();
         int totalSum = 0;
@@ -42,8 +16,20 @@ public:
         int amount = totalSum - target;
         if(amount< 0 || amount%2 != 0) return 0;
         amount = (totalSum-target)/2;
-        vector<vector<int>> DP(n, vector<int>(amount+1, -1));
-        int ways = calculateWays(0, amount, nums, DP);
-        return ways;
+        vector<vector<int>> DP(n, vector<int>(amount+1, 0));
+        
+        DP[0][0] = 1 + (nums[0] == 0);
+        if(nums[0] != 0 && nums[0]<=amount) DP[0][nums[0]] = 1;      
+        
+
+        for(int idx = 1; idx<n ; idx++){
+            for(int t = 0; t<=amount ; t++){
+                DP[idx][t] =  DP[idx-1][t];
+                if(nums[idx]<=t) {
+                    DP[idx][t] += DP[idx-1][t-nums[idx]];
+                }
+            }
+        }
+        return DP[n-1][amount];
     }
 };

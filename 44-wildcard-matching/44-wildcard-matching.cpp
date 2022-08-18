@@ -15,14 +15,14 @@ private:
             return cache;
         }
         
-        
+        cache = false;
         if(s[idx1] == p[idx2] || p[idx2] == '?'){
             return cache = helper(idx1-1, idx2-1, s, p, DP);
         }
         
         if(p[idx2] == '*') {
             cache = helper(idx1, idx2-1, s, p, DP) | helper(idx1-1, idx2, s, p, DP);
-        } else cache = false;
+        }
         return cache;
     }
 public:

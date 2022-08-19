@@ -1,22 +1,26 @@
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
+    	// Time : O(n)
+    	// Space : O(1)
         int n = nums.size();
-        vector<int> prefixProducts(n, 1);
-        vector<int> suffixProducts(n, 1);
-        
-        for(int i=0; i<n; i++){
-            prefixProducts[i] = (i>0) ? prefixProducts[i-1]*nums[i] : nums[i];
+        vector<int>result(n, 0);
+        int product = 1, zero = 0;
+        for(auto& num : nums){
+        	if(num == 0) zero++;
+        	else product *= num;
         }
 
-        for(int i=n-1; i>=0; i--){
-            suffixProducts[i] = (i+1<n) ? suffixProducts[i+1]*nums[i] : nums[i];
-        }
-        vector<int>result(n);
+        if(zero>1) return result;
+
         for(int i=0; i<n; i++){
-            int left = (i>0) ? prefixProducts[i-1] : 1;
-            int right = (i+1<n) ? suffixProducts[i+1] : 1;
-            result[i] = left*right;
+        	if(zero == 1 && nums[i]!=0){
+        		result[i] = 0;
+        	} else if(zero == 1 && nums[i]==0){
+        		result[i] = product;
+        	} else {
+        		result[i] = product/nums[i];
+        	}
         }
         return result;
     }

@@ -1,40 +1,23 @@
 class Solution {
-private:
-    vector<int> usingExtraSpace(vector<int>& nums){
-        int n = nums.size();
-        vector<int>answer(n, 1);
-        vector<int>left(n, 1), right(n, 1);
-        
-        for(int i=1; i<n; i++) {
-            left[i] = left[i-1]*nums[i-1];
-        }
-        
-        for(int i=n-2; i>=0; i--){
-            right[i] = right[i+1] * nums[i+1];
-        }
-        
-        for(int i=0; i<n; i++){
-            answer[i] = left[i]*right[i];
-        }
-        return answer;
-    }
-    
-    vector<int> usingNoExtraSpace(vector<int>& nums){
-        int n = nums.size();
-        vector<int>answer(n, 1);
-        
-        for(int i=1; i<n; i++) {
-            answer[i] = answer[i-1]*nums[i-1];
-        }
-        int R = 1;
-        for(int i=n-1; i>=0; i--){
-            answer[i] *= R;
-            R *= nums[i];
-        }
-        return answer;
-    }
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-        return usingNoExtraSpace(nums);
+        int n = nums.size();
+        vector<int> prefixProducts(n, 1);
+        vector<int> suffixProducts(n, 1);
+        
+        for(int i=0; i<n; i++){
+            prefixProducts[i] = (i>0) ? prefixProducts[i-1]*nums[i] : nums[i];
+        }
+
+        for(int i=n-1; i>=0; i--){
+            suffixProducts[i] = (i+1<n) ? suffixProducts[i+1]*nums[i] : nums[i];
+        }
+        vector<int>result(n);
+        for(int i=0; i<n; i++){
+            int left = (i>0) ? prefixProducts[i-1] : 1;
+            int right = (i+1<n) ? suffixProducts[i+1] : 1;
+            result[i] = left*right;
+        }
+        return result;
     }
 };

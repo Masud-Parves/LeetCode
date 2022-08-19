@@ -7,35 +7,30 @@ public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
         int n = mat.size(), m = mat[0].size();
         
-        vector<vector<int>> dis(n, vector<int>(m, INT_MAX));
-        queue<pair<int, int>>Q;
+        vector<vector<int>> dis(n, vector<int>(m, INT_MAX - 100000));
         
-        for(int i=0; i<n ; i++){
+        for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(mat[i][j] == 0){
                     dis[i][j] = 0;
-                    Q.push({i, j});
+                } else {
+                    if(i>0) dis[i][j] = min(dis[i][j], dis[i-1][j]+1);
+                    if(j>0) dis[i][j] = min(dis[i][j], dis[i][j-1]+1);
                 }
             }
         }
-        int fx[4] = {1, -1, 0, 0};
-        int fy[4] = {0, 0, 1, -1};
-        while(!Q.empty()){
-            int ux = Q.front().first;
-            int uy = Q.front().second;
-            Q.pop();
-            
-            for(int i=0; i<4; i++){
-                int vx = ux + fx[i];
-                int vy = uy + fy[i];
-                if(isValid(vx, vy, n, m)){
-                    if(dis[vx][vy] > 1 + dis[ux][uy]){
-                        dis[vx][vy] = 1 + dis[ux][uy];
-                        Q.push({vx, vy});
-                    }
+                
+        for(int i=n-1; i>=0; i--){
+            for(int j=m-1; j>=0; j--){
+                if(mat[i][j] == 0){
+                    dis[i][j] = 0;
+                } else {
+                    if(i<n-1) dis[i][j] = min(dis[i][j], dis[i+1][j]+1);
+                    if(j<m-1) dis[i][j] = min(dis[i][j], dis[i][j+1]+1);
                 }
             }
         }
+        
         return dis;
     }
 };

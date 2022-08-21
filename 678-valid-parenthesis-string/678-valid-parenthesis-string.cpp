@@ -14,7 +14,7 @@ private:
         }
         
         if(s[idx] == '*'){
-           cache = helper(idx+1, s, take, DP) or helper(idx+1, s, take+1, DP) or helper(idx+1, s, take-1, DP);
+           cache = helper(idx+1, s, take, DP) | helper(idx+1, s, take+1, DP) | helper(idx+1, s, take-1, DP);
         }  else {
             if(s[idx] == '(')
                 cache = helper(idx+1, s, take+1, DP);
@@ -26,7 +26,6 @@ private:
 public:
     bool checkValidString(string s) {
         int n = s.size();
-        
         vector<vector<int>> DP(n+1, vector<int>(n+1, -1));
         return helper(0, s, 0, DP);
     }

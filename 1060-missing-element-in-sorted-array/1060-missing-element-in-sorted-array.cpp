@@ -1,25 +1,23 @@
 class Solution {
+private:
+    int missing(vector<int>& nums, int idx){
+        return nums[idx]-nums[0]-idx;
+    }
 public:
     int missingElement(vector<int>& nums, int k) {
         int n = nums.size();
-        int how_many = 0;
-        for(int i=1; i<n; i++){
-            int prevVal = nums[i-1];
-            if(prevVal == nums[i]-1) continue;
-            
-            int now = nums[i]-prevVal-1;
-            //cout << how_many << " " << now << endl;
-            if(how_many + now >= k){
-                int perfect = k - how_many;
-                return nums[i-1]+perfect;
-            }
-            
-            how_many += now;
-            
+        
+        if(missing(nums, nums.size()-1)<k){
+            return nums.back() + k-missing(nums, nums.size()-1);
         }
-        if(how_many<k){
-            return nums.back() + k-how_many;
+        
+        int L = 0, R = n-1, mid;
+        while(L<R){
+            mid = L + (R-L)/2;
+            int miss = missing(nums, mid);
+            if(miss<k) L = mid+1;
+            else R = mid;
         }
-        return -1;
+        return nums[L-1] + k - missing(nums, L-1);
     }
 };

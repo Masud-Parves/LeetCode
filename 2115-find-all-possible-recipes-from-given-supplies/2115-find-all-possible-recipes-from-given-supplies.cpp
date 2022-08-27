@@ -2,36 +2,32 @@ class Solution {
 public:
     vector<string> findAllRecipes(vector<string>& recipes, vector<vector<string>>& ingredients, vector<string>& supplies) {
         int numOfRecipes = recipes.size();
-        
-        unordered_map<string, bool> allSupplies;
+        vector<string> result;
+        unordered_map<string, int> indegree;
+        queue<string>Q;
         for(auto& supply : supplies){
-            allSupplies[supply] = true;
+            indegree[supply] = 0;
+            Q.push(supply);
         }
         
-        vector<string> result;
-        vector<bool> visited(numOfRecipes, false);
-        bool continueCooking = true;
+        unordered_map<string, vector<string>> graph;
+        for(int i=0; i<ingredients.size(); i++){
+            for(int k=0; k<ingredients[i].size(); k++){
+                graph[ingredients[i][k]].push_back(recipes[i]);
+                indegree[recipes[i]]++;
+            }
+        }
         
-        
-        while(continueCooking){
-            continueCooking = false;
-            bool isCreated;
-            for(int i=0; i<numOfRecipes; i++){
-                if(visited[i] == true) continue;
-                
-                isCreated = true;
-                for(int need = 0; need<ingredients[i].size(); need++){
-                    if(allSupplies.find(ingredients[i][need]) == allSupplies.end()){
-                        isCreated = false;
-                        break;
-                    }
-                }
-
-                if(isCreated == true){
-                    visited[i] = true;
-                    continueCooking = true;
-                    result.push_back(recipes[i]);
-                    allSupplies[recipes[i]] = true;
+        while(!Q.empty()){
+            string supply = Q.front();
+            Q.pop();
+            
+            
+            for(auto& cooking : graph[supply]){
+                indegree[cooking]--;
+                if(indegree[cooking] == 0) {
+                    Q.push(cooking);
+                    result.push_back(cooking);
                 }
             }
         }

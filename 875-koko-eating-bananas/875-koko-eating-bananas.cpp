@@ -17,19 +17,14 @@ public:
             high = max(high, piles[i]);
         }
         
-        int result = high;
-        
         while (low < high) {
             int k = low + (high - low) / 2;
-
             if (check(piles, k, h)) {
-                result = min(result, k);
                 high = k;
             } else {
                 low = k + 1;
             }
         }
-        
         return high;
     }
 };

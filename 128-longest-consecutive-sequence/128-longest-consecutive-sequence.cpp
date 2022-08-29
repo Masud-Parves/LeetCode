@@ -17,6 +17,7 @@ public:
                     count++;
                     currNum++;
                 }
+                nums_set.erase(currNum);
                 result = max(count, result);
             }
         }

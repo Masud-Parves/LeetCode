@@ -15,9 +15,9 @@ public:
                 int count = 1;
                 while(nums_set.count(currNum+1)){
                     count++;
+                    nums_set.erase(currNum);
                     currNum++;
                 }
-                nums_set.erase(currNum);
                 result = max(count, result);
             }
         }

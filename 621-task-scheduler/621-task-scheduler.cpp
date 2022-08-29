@@ -28,8 +28,8 @@ public:
                 currTask = Q.top();
                 Q.pop();
                 currTaskIdleTime = time+n+1;
-                if(currTask-1>0){
-                    waiting.push({currTask-1, currTaskIdleTime});
+                if(--currTask>0){
+                    waiting.push({currTask, currTaskIdleTime});
                 }   
             }
             time++;

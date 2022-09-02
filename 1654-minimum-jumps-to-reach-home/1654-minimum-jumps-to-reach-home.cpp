@@ -26,7 +26,7 @@ public:
         for(auto& val : forbidden){
             seen[val]++;
         }
-        vector<vector<int>> DP(7001, vector<int>(2, -1));
+        vector<vector<int>> DP(6001, vector<int>(2, -1));
         int result = helper(0, x, 1, a, b, seen, DP);
         return (result >= INT_MAX/2) ? -1 : result;
     }

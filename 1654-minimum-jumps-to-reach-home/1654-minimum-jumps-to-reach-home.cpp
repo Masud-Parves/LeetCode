@@ -6,7 +6,7 @@ private:
         }
         
         if(currIdx<0 || currIdx>6000 || seen.find(currIdx)!=seen.end()){
-            return 1e9;
+            return INT_MAX/2;
         }
         int& cache = DP[currIdx][isBackPossible];
         if(cache != -1){
@@ -27,7 +27,7 @@ public:
             seen[val]++;
         }
         vector<vector<int>> DP(7001, vector<int>(2, -1));
-        int result =helper(0, x, 1, a, b, seen, DP);
-        return (result >= 1e9) ? -1 : result;
+        int result = helper(0, x, 1, a, b, seen, DP);
+        return (result >= INT_MAX/2) ? -1 : result;
     }
 };

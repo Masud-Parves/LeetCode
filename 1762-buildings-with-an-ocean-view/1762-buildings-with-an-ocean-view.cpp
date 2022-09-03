@@ -3,25 +3,14 @@ public:
     vector<int> findBuildings(vector<int>& heights) {    
         int n = heights.size();
         vector<int> result;
-        stack<int> stk;
         
-        for(int i=n-1; i>=0; i--){
-            if(stk.empty()){
-                result.push_back(i);
-                stk.push(heights[i]);
-            } else {
-                if(heights[i]>stk.top()){
-                    while(stk.empty() == false && heights[i]>stk.top()){
-                        stk.pop();
-                    }
-                }
-                
-                if(stk.empty()) result.push_back(i);
-                 stk.push(heights[i]);
+        for(int i=0; i<n; i++){
+            while(result.size()>0 && heights[result.back()]<=heights[i]){
+                result.pop_back();
             }
-            
+            result.push_back(i);
         }
-        sort(result.begin(), result.end());
+        
         return result;
     }
 };

@@ -1,12 +1,13 @@
 class Solution {
 private:
-    bool dfs(int uNode , vector<vector<int>>& graph, vector<bool>& visited, vector<bool>& pathVisited){
+    bool dfs(int uNode , vector<vector<int>>& graph, vector<bool>& visited, vector<bool>& pathVisited,
+            vector<int>& safeNodes){
         
         visited[uNode] = pathVisited[uNode] = true;
         
         for(auto& vNode : graph[uNode]){
             if(visited[vNode] == false){
-                if(dfs(vNode, graph, visited, pathVisited) == true) {
+                if(dfs(vNode, graph, visited, pathVisited, safeNodes) == true) {
                     // not contains any cycle's node
                     return true;
                 }
@@ -15,7 +16,7 @@ private:
                 return true;
             }
         }
-        
+        safeNodes.push_back(uNode);
         pathVisited[uNode] = false;
         return false;
     }
@@ -27,14 +28,11 @@ public:
         vector<int> safeNodes;
         for(int node = 0; node<numOfNode; node++){
             if(visited[node] == false){
-                dfs(node, graph, visited, pathVisited);
+                dfs(node, graph, visited, pathVisited, safeNodes);
             }
         }
         
-        for(int i=0; i<numOfNode; i++){
-            if(pathVisited[i] == false) safeNodes.push_back(i);
-        }
-        
+        sort(safeNodes.begin(), safeNodes.end());
         return safeNodes;
     }
 };

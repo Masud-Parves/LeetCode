@@ -25,8 +25,6 @@ public:
             }
         }
         
-        vector<int> ret;
-        
-        return ans.size() == numCourses ? ans : ret;
+        return ans.size() == numCourses ? ans : vector<int>();
     }
 };

@@ -53,16 +53,16 @@ class ListNode{
     }
     
     void put(int key, int value) {
-        if(address.find(key) != address.end()){
+        if(address.find(key) != address.end() && address[key] != NULL){
             ListNode* currNode = address[key];
             deleteNode(currNode);
-            address.erase(key);
+            address[key] = NULL;
             currSize--;
         }
 
         if(currSize == capacity){
             ListNode* leastUse = tail->prev;
-            address.erase(leastUse->key);
+            address[leastUse->key] = NULL;
             deleteNode(leastUse);
             currSize--;
         }

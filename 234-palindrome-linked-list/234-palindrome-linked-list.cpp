@@ -7,27 +7,65 @@
  *     ListNode(int x) : val(x), next(nullptr) {}
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
+ 
+ Algorithm : 
+ 
+    1. Find midNode 
+    2. reverse midNode -> lastNode
+    3. 
+ 
  */
 class Solution {
+private:
+    ListNode* middleOfList(ListNode* head){
+        ListNode* slow = head, *fast = head;
+        while(fast->next != NULL && fast->next->next != NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    
+    ListNode* reverseList(ListNode* head){
+        ListNode *prevNode = NULL, *currNode = head, *nextNode;
+        while(currNode != NULL){
+            nextNode = currNode->next;
+            currNode->next = prevNode;
+            prevNode = currNode;
+            currNode = nextNode;
+        }
+        return prevNode;
+    }
+    
+    void printListNode(ListNode* node){
+        while(node != NULL){
+            cout << node->val << " ";
+            node = node->next;
+        }
+    }
+    
 public:
     bool isPalindrome(ListNode* head) {
         if(head == NULL){
-            return NULL;
+            return true;
         }
-        stack<int> stk;
-        ListNode* currNode = head;
-        while(currNode != NULL){
-            stk.push(currNode->val);
-            currNode = currNode->next;
+        ListNode* currHead = head;
+        ListNode* middleNode = middleOfList(currHead);
+        middleNode->next = reverseList(middleNode->next);
+        
+        
+        bool isPali = true;
+        ListNode* left = head, *right = middleNode->next;
+        while(right != NULL){
+            if(left->val != right->val){
+                isPali = false;
+                break;
+            }
+            left = left->next;
+            right = right->next;
         }
         
-        currNode = head;
-        while(!stk.empty()){
-            int lastElement = stk.top();
-            stk.pop();
-            if(lastElement != currNode->val) return false;
-            currNode = currNode->next;
-        }
-        return true;
+        middleNode->next = reverseList(middleNode->next);
+        return isPali;
     }
 };

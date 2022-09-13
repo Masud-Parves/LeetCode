@@ -36,14 +36,7 @@ private:
         }
         return prevNode;
     }
-    
-    void printListNode(ListNode* node){
-        while(node != NULL){
-            cout << node->val << " ";
-            node = node->next;
-        }
-    }
-    
+
 public:
     bool isPalindrome(ListNode* head) {
         if(head == NULL){

@@ -11,24 +11,24 @@
  */
 class Solution {
 private:
-    TreeNode* helper(int l, int r, vector<int>& nums){
-        if(l>r){
+    TreeNode* generateBST(int low, int high, vector<int>& nums){
+        if(low>high){
             return NULL;
         }
         
-        int m = (l+r)/2;
-        TreeNode* root = new TreeNode(nums[m]);
-        root->left = helper(l, m-1, nums);
-        root->right = helper(m+1, r, nums);
+        int currIdx = low + (high-low)/2;
+        TreeNode* root = new TreeNode(nums[currIdx]);
+        root->left = generateBST(low, currIdx-1, nums);
+        root->right = generateBST(currIdx+1, high, nums);
         return root;
     }
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
         int n = nums.size();
-        if(n==0){
+        if(n == 0){
             return NULL;
         }
         
-        return helper(0, n-1, nums);
+        return generateBST(0, n-1, nums);
     }
 };

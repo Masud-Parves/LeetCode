@@ -1,3 +1,12 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
 class Codec {
 public:
 
@@ -8,9 +17,9 @@ public:
         }
         
         string data = "";
+        
         queue<TreeNode*>Q;
         Q.push(root);
-        
         while(!Q.empty()){
             TreeNode* currNode = Q.front();
             Q.pop();
@@ -23,8 +32,8 @@ public:
                 data += "#,";
             }
         }
-        return data;
         
+        return data;
     }
 
     // Decodes your encoded data to tree.
@@ -35,36 +44,42 @@ public:
         
         stringstream s(data);
         string str;
-        getline(s,str,',');
         
-        queue<TreeNode*>Q;
+        getline(s, str, ',');
+        
         TreeNode* root = new TreeNode(stoi(str));
-        
+        queue<TreeNode*>Q;
         Q.push(root);
         
         while(!Q.empty()){
             TreeNode* currNode = Q.front();
             Q.pop();
             
-            getline(s,str,',');
+            
+            getline(s, str, ',');
             if(str == "#"){
                 currNode->left = NULL;
             } else {
-                TreeNode* leftNode = new TreeNode(stoi(str));
-                currNode->left = leftNode;
+                currNode->left = new TreeNode(stoi(str));
                 Q.push(currNode->left);
             }
             
-            getline(s,str,',');
+            getline(s, str, ',');
             if(str == "#"){
-                currNode->right = NULL;
+                currNode->right == NULL;
             } else {
-                TreeNode* rightNode = new TreeNode(stoi(str));
-                currNode->right = rightNode;
+                currNode->right = new TreeNode(stoi(str));
                 Q.push(currNode->right);
             }
         }
-
+        
         return root;
     }
 };
+
+// Your Codec object will be instantiated and called as such:
+// Codec* ser = new Codec();
+// Codec* deser = new Codec();
+// string tree = ser->serialize(root);
+// TreeNode* ans = deser->deserialize(tree);
+// return ans;

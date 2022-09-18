@@ -1,20 +1,25 @@
 class Solution {
 public:
-    int trap(vector<int>& heights) {
-        int n = heights.size();
-        vector<int>rightMax(n);
-        int maxVal = 0;
-        for(int i=n-1; i>=0; i--){
-            maxVal = max(maxVal, heights[i]);
-            rightMax[i] = maxVal;
+    int trap(vector<int>& height) {
+        int left = 0, right = height.size()-1;
+        
+        int leftMax = height[left], rightMax = height[right];
+        int tapped_water = 0;
+        while(left<right){
+            
+            leftMax = max(height[left], leftMax);
+            rightMax = max(height[right], rightMax);
+            
+            if(height[left]<height[right]){
+                tapped_water += leftMax-height[left];
+                left++;
+            } else {
+                tapped_water += rightMax-height[right];
+                right--;
+            }
+            
+            
         }
-        int leftMax = heights[0];
-        int result = 0;
-        for(int i=1; i<n-1; i++){
-            //cout << leftMax << " " << rightMax[i+1] << endl;
-            result += max(0, min(leftMax, rightMax[i+1])-heights[i]);
-            leftMax = max(leftMax, heights[i]);
-        }
-        return result;
+        return tapped_water;
     }
 };

@@ -1,30 +1,34 @@
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_set<string> seen(wordList.begin(), wordList.end());
-        seen.insert(beginWord);
+        unordered_set<string> cache(wordList.begin(), wordList.end());
+        cache.insert(beginWord);
         
-        queue<pair<string, int>> Q;
-        Q.push({beginWord, 1});
+        if(cache.find(endWord) == cache.end()) return 0;
         
-        while(!Q.empty()){
-            auto node = Q.front();
-            Q.pop();
+        queue<pair<string, int>> todo;
+        todo.push({beginWord,1});
+        cache.erase(beginWord);
+        
+        while(!todo.empty()){
+            auto node = todo.front();
+            todo.pop();
+            
             string word = node.first;
-            int step = node.second;
+            int steps = node.second;
             
-            if(word == endWord){
-                return step;
-            }
+            if(word == endWord) return steps;
             
-            for(int i=0; i<word.size(); i++){
+            for(int i=0; i<word.size() ; i++){
                 char orginal = word[i];
-                for(char ch = 'a' ; ch<='z' ; ch++){
-                    if(ch == orginal) continue;
-                    word[i] = ch;
-                    if(seen.find(word) != seen.end()){
-                        seen.erase(word);
-                        Q.push({word, step+1});
+                
+                for(char c='a'; c<='z'; c++){
+                    if(c == orginal) continue;
+                    word[i] = c;
+                    
+                    if(cache.find(word) != cache.end()){
+                        todo.push({word, steps+1});
+                        cache.erase(word);
                     }
                 }
                 word[i] = orginal;

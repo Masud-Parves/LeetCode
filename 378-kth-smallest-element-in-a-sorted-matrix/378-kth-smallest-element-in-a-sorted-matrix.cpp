@@ -1,33 +1,32 @@
 class Solution {
 private:
-    int helper(vector<vector<int>>& matrix, int mid){
+    int helper(int target, vector<vector<int>>& matrix){
         int n = matrix.size();
-        int i = matrix.size()-1, j = 0;
+        int row = 0, col = n-1;
         int count = 0;
-        while(i>=0 && j<n){
-            if(matrix[i][j]>mid){
-                i--;
+        while(row<n && col>=0){
+            if(matrix[row][col]<=target){
+                count += col+1;
+                row++;
             } else {
-                count += (i+1);
-                j++;
+                col--;
             }
         }
         return count;
     }
 public:
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        int row = matrix.size(), col = matrix[0].size();
-        int left = matrix[0][0], right = matrix[row-1][col-1], mid;
+        int n = matrix.size();
+        int low = matrix[0][0], high = matrix[n-1][n-1], mid;
         
-        while(left<right){
-            mid = left + (right-left)/2;
-            int count = helper(matrix, mid);
-            if(count<k){
-                left = mid+1;
+        while(low<high){
+            mid = low + (high-low)/2;
+            if(helper(mid, matrix)<k){
+                low = mid+1;
             } else {
-                right = mid;
+                high = mid;
             }
         }
-        return left;
+        return low;
     }
 };

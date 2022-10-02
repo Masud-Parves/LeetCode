@@ -40,6 +40,25 @@ private:
         return cache[n][t];
     }
     
+    int spaceOptimizationSolution(int n, int k, int t){
+        vector<int>currRow(t+1, 0), prevRow(t+1, 0);
+        prevRow[0] = 1;
+        
+        for(int dice = 1; dice<=n; dice++){
+            for(int target = 1; target<=t ; target++){
+                int ways = 0;
+                for(int i=1; i<=k ; i++){
+                    if(target-i>=0){
+                        ways = (ways%MOD + prevRow[target-i]%MOD)%MOD;
+                    }   
+                }
+                currRow[target] = ways;
+            }
+            prevRow = currRow;
+        }
+        return prevRow[t];
+    }
+    
 public:
     int numRollsToTarget(int n, int k, int target) {
         vector<vector<int>> cache(n+1, vector<int>(target+1, 0));

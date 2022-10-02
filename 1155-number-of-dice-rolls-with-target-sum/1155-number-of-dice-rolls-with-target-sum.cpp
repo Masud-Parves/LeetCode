@@ -22,9 +22,27 @@ private:
         }
         return currState = ways;
     }
+    
+    int tabulationSolution(int n, int k, int t, vector<vector<int>>& cache){
+        cache[0][0] = 1;
+        
+        for(int dice = 1; dice<=n; dice++){
+            for(int target = 1; target<=t ; target++){
+                int ways = 0;
+                for(int i=1; i<=k ; i++){
+                    if(target-i>=0){
+                        ways = (ways%MOD + cache[dice-1][target-i]%MOD)%MOD;
+                    }   
+                }
+                cache[dice][target] = ways;
+            }
+        }
+        return cache[n][t];
+    }
+    
 public:
     int numRollsToTarget(int n, int k, int target) {
-        vector<vector<int>> cache(n, vector<int>(target+1, -1));
-        return getWaysRollsToTarget(0, n, k, target, cache);
+        vector<vector<int>> cache(n+1, vector<int>(target+1, 0));
+        return tabulationSolution(n, k, target, cache);
     }
 };

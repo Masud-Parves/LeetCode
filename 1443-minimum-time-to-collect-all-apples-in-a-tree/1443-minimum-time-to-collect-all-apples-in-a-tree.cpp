@@ -29,13 +29,9 @@ public:
         }
         vector<int> childs(n);
         dfs(0, -1, graph, childs, hasApple);
-        for(int i=0; i<n; i++){
-            cout << childs[i] << " ";
-        }
         if(childs[0] == 0) return 0;
         int path = 0;
         dfs2(0, -1, graph, childs, path);
-        
         return path-2;
     }
 };

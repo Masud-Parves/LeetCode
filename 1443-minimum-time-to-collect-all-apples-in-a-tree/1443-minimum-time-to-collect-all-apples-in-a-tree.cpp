@@ -1,25 +1,16 @@
 class Solution {
 private:
-    void dfs(int uNode, int p, vector<vector<int>>& graph, vector<int>& childs, vector<bool>& hasApple){
-        //cout << uNode << endl;
-        childs[uNode] = hasApple[uNode];
+    int dfs(int uNode, int p, vector<vector<int>>& graph, vector<int>& childs, vector<bool>& hasApple){
+        int childsCost = 0;
         for(auto& vNode : graph[uNode]){
             if(vNode == p) continue;
-            dfs(vNode, uNode, graph, childs, hasApple);
-            childs[uNode] += childs[vNode];
+            childsCost += dfs(vNode, uNode, graph, childs, hasApple);
         }
-        return;
-    }
-    
-    void dfs2(int uNode, int p, vector<vector<int>>& graph, vector<int>& childs, int& path){
-        path++;
-        for(auto& vNode : graph[uNode]){
-            if(vNode == p or childs[vNode]==0) continue;
-            dfs2(vNode, uNode, graph, childs, path);
+        if(childsCost>0 || hasApple[uNode] == true){
+            return childsCost + 2;   
         }
-        path++;
+        return 0;
     }
-
 public:
     int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
         vector<vector<int>> graph(n);
@@ -28,10 +19,7 @@ public:
             graph[edge[1]].push_back(edge[0]);
         }
         vector<int> childs(n);
-        dfs(0, -1, graph, childs, hasApple);
-        if(childs[0] == 0) return 0;
-        int path = 0;
-        dfs2(0, -1, graph, childs, path);
-        return path-2;
+        int cost = dfs(0, -1, graph, childs, hasApple);
+        return cost == 0 ? cost : cost-2;
     }
 };

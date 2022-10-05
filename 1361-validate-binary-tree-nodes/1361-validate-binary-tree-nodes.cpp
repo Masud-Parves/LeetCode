@@ -1,50 +1,42 @@
 class Solution {
 private:
-    vector<int> parent, countParent;
-    int find(int x){
-        if(parent[x] == x) return x;
-        return parent[x] = find(parent[x]);
+    bool dfs(int node, vector<int>& leftChild, vector<int>& rightChild, vector<bool>& visited, int& count){
+
+        if(visited[node] == true){
+            return false;
+        }
+        visited[node] = true;
+        bool left = true, right = true;
+        count++;
+        if(leftChild[node] != -1){
+            left = dfs(leftChild[node], leftChild, rightChild, visited, count);
+        }
+        if(rightChild[node] != -1){
+            right = dfs(rightChild[node], leftChild, rightChild, visited, count);
+        }
+        return left && right;
     }
-    
-    bool make_union(int x, int y){
-        int rootX = find(x);
-        int rootY = find(y);
-        if(rootX == rootY) return true;
-    
-        parent[rootX] = rootY;
-        
-        return false;
-    }
-    
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
-        parent = vector<int>(n), countParent = vector<int>(n, 0);
+        vector<int> parent(n, -1);
         
         for(int i=0; i<n; i++){
-            parent[i] = i;
-        }
-        
-        for(int i=0; i<n; i++){
-            if(leftChild[i] != -1){
-                countParent[leftChild[i]]++;
-                if(make_union(i, leftChild[i])){
-                    return false;
-                }
+            if(leftChild[i]!=-1){
+                parent[leftChild[i]] = i;
             }
-            if(rightChild[i] != -1){
-                countParent[rightChild[i]]++;
-                if(make_union(i, rightChild[i])){
-                    return false;
-                }
+            if(rightChild[i]!=-1){
+                parent[rightChild[i]] = i;
             }
         }
         
-        int component = 0, single_parent_child = 0;
+        vector<bool> visited(n, false);
+        int count = 0;
         for(int i=0; i<n; i++){
-            if(parent[i] == i) component++;
-            if(countParent[i] == 1) single_parent_child++;
+            if(parent[i] == -1){
+                bool isCycle = dfs(i, leftChild, rightChild, visited, count);
+                return isCycle && count == n;
+            }
         }
-        //cout << component << " " << single_parent_child << endl;
-        return component == 1 && single_parent_child == n-1;
+        return false;
     }
 };

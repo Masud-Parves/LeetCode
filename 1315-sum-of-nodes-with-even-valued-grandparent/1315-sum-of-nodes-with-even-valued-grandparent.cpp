@@ -19,25 +19,20 @@ private:
         return bothSum;
     }
 public:
-    int sumEvenGrandparent(TreeNode* root) {
-        if(root == NULL){
+    int sumEvenGrandparent(TreeNode* currNode) {
+        if(currNode == NULL){
             return 0;
         }
-        
-        queue<TreeNode*> todo;
-        todo.push(root);
         int total = 0;
-        while(!todo.empty()){
-            TreeNode* currNode = todo.front();
-            todo.pop();
-            int currVal = currNode->val;
-            if(currVal%2 == 0){
-                total += isEvenValuedGrandparent(currNode->left);
-                total += isEvenValuedGrandparent(currNode->right);
-            }
-            if(currNode->left != NULL) todo.push(currNode->left);
-            if(currNode->right != NULL) todo.push(currNode->right);
+        int currVal = currNode->val;
+        if(currVal%2==0){
+            total += isEvenValuedGrandparent(currNode->left);
+            total += isEvenValuedGrandparent(currNode->right);
         }
+        
+        
+        total += sumEvenGrandparent(currNode->left);
+        total += sumEvenGrandparent(currNode->right);
         return total;
     }
 };

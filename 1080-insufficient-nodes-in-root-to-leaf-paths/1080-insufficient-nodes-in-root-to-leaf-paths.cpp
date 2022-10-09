@@ -24,6 +24,9 @@ private:
         
         TreeNode* leftNode = dfsTraversal(node->left, limit, sum);
         TreeNode* rightNode = dfsTraversal(node->right, limit, sum);
+        if(leftNode == NULL && rightNode == NULL){
+            return NULL;
+        }
         if(leftNode == NULL){
             node->left = NULL;
         }
@@ -31,9 +34,7 @@ private:
             node->right = NULL;
         }
         
-        if(leftNode == NULL && rightNode == NULL){
-            return NULL;
-        }
+
         return node;
     }
 public:

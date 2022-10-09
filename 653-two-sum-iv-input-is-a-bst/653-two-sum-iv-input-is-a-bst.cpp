@@ -10,19 +10,20 @@
  * };
  */
 class Solution {
-    bool dfsTraversal(TreeNode* node, int target, unordered_set<int>& seen){
-        if(node == NULL){
+private:
+    unordered_set<int> cache;
+public:
+    bool findTarget(TreeNode* root, int target) {
+        if(root == NULL) {
             return false;
         }
-        if(seen.find(target-node->val) != seen.end()){
+        
+        if(cache.find(target-root->val) != cache.end()){
             return true;
         }
-        seen.insert(node->val);
-        return dfsTraversal(node->left, target, seen) || dfsTraversal(node->right, target, seen);
-    }
-public:
-    bool findTarget(TreeNode* root, int k) {
-        unordered_set<int> seen;
-        return dfsTraversal(root, k, seen);
+        cache.insert(root->val);
+        
+        return findTarget(root->left, target) ||
+                findTarget(root->right, target); 
     }
 };

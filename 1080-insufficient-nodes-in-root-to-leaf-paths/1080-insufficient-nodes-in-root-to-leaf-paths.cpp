@@ -27,12 +27,8 @@ private:
         if(leftNode == NULL && rightNode == NULL){
             return NULL;
         }
-        if(leftNode == NULL){
-            node->left = NULL;
-        }
-        if(rightNode == NULL){
-            node->right = NULL;
-        }
+        node->left = leftNode;
+        node->right = rightNode;
         
 
         return node;

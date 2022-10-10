@@ -2,7 +2,7 @@ class Solution {
 public:
     int leastBricks(vector<vector<int>>& wall) {
         int rows = wall.size();
-        unordered_map<long long, int> cache;
+        unordered_map<int, int> cache;
         int maxEmpty = 0;
         for(int r=0; r<rows ; r++){
             int prev = 0;

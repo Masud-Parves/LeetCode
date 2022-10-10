@@ -2,11 +2,6 @@ class Solution {
 public:
     int leastBricks(vector<vector<int>>& wall) {
         int rows = wall.size();
-        int sumOfRow = 0;
-        for(auto& val : wall[0]){
-            sumOfRow += val;
-        }
-        
         unordered_map<long long, int> cache;
         int maxEmpty = 0;
         for(int r=0; r<rows ; r++){

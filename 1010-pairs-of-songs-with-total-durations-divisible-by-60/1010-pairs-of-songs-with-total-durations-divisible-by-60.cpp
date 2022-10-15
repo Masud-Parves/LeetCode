@@ -7,9 +7,9 @@ public:
         int numOfPair = 0;
         
         for(auto& t : time){
-            int rem = t%60;
-            numOfPair += rem == 0 ? cache[0] : cache[60-rem];
-            cache[rem]++;
+            int modulo = t%60;
+            numOfPair += modulo == 0 ? cache[0] : cache[60-modulo];
+            cache[modulo]++;
         }
         return numOfPair;
     }

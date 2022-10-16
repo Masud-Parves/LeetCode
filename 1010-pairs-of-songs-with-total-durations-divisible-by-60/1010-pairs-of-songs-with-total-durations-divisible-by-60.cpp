@@ -5,10 +5,9 @@ public:
         unordered_map<int, int> cache;
 
         int numOfPair = 0;
-        
         for(auto& t : time){
             int modulo = t%60;
-            numOfPair += modulo == 0 ? cache[0] : cache[60-modulo];
+            numOfPair += cache[(60-modulo)%60];
             cache[modulo]++;
         }
         return numOfPair;

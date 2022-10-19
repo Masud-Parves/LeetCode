@@ -7,18 +7,20 @@ public:
         return a.second > b.second;
     }
     vector<string> topKFrequent(vector<string>& words, int k) {
-        vector<string> result;
         unordered_map<string, int> seen;
         for(auto& word : words){
             seen[word]++;
         }
         
-        vector<pair<string, int>>cache(seen.begin(), seen.end());
-        sort(cache.begin(), cache.end(), mycmp);
+        vector<pair<string, int>> mostFreq;
+        for(auto& m : seen){
+            mostFreq.push_back({m.first, m.second});
+        }
+        sort(mostFreq.begin(), mostFreq.end(), mycmp);
+        vector<string> result;
         int i=0;
         while(k--){
-            result.push_back(cache[i].first);
-            i++;
+            result.push_back(mostFreq[i++].first);
         }
         return result;
     }
